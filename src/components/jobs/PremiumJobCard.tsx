@@ -1,6 +1,6 @@
 import { JobListing } from "@/types/job";
 import { MapPin, Building2, Crown } from "lucide-react";
-import Image from "next/image";
+import Link from "next/link";
 
 interface PremiumJobCardProps {
   job: JobListing;
@@ -8,13 +8,13 @@ interface PremiumJobCardProps {
 
 export function PremiumJobCard({ job }: PremiumJobCardProps) {
   return (
-    <div className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:border-blue-500">
-      <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-xs font-bold px-3 py-1 rounded-br-lg z-10 flex items-center gap-1">
-        <Crown className="w-3 h-3" />
-        PREMIUM
-      </div>
-      
-      <div className="flex flex-col md:flex-row h-full">
+    <Link href={`/jobs/${job.id}`} className="block h-full">
+      <div className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:border-blue-500 h-full flex flex-col md:flex-row">
+        <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-xs font-bold px-3 py-1 rounded-br-lg z-10 flex items-center gap-1">
+          <Crown className="w-3 h-3" />
+          PREMIUM
+        </div>
+        
         {/* Image Section */}
         <div className="relative w-full md:w-1/3 h-48 md:h-auto overflow-hidden bg-gray-100">
           {job.imageUrl ? (
@@ -73,12 +73,12 @@ export function PremiumJobCard({ job }: PremiumJobCardProps) {
                 </div>
               )}
             </div>
-            <button className="bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded hover:bg-blue-700 transition-colors">
+            <span className="bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded hover:bg-blue-700 transition-colors">
               지원하기
-            </button>
+            </span>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
