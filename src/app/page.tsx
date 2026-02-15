@@ -1,46 +1,65 @@
 import { Hero } from "@/components/home/Hero";
+import { PremiumJobCard } from "@/components/jobs/PremiumJobCard";
+import { SpecialJobCard } from "@/components/jobs/SpecialJobCard";
+import { GeneralJobCard } from "@/components/jobs/GeneralJobCard";
+import { premiumJobs, specialJobs, generalJobs } from "@/data/mock-jobs";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen pb-20">
       <Hero />
       
-      {/* Main Content Area Placeholder */}
-      <div className="container mx-auto px-4 py-12 space-y-12">
+      <div className="container mx-auto px-4 py-12 space-y-16">
+        {/* Premium Section */}
         <section>
-          <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-xl font-bold text-blue-600">프리미엄</h2>
-            <span className="text-xl font-bold text-gray-800">채용정보</span>
+          <div className="flex items-center gap-3 mb-6 border-b border-gray-200 pb-4">
+            <h2 className="text-2xl font-bold text-blue-600">PREMIUM</h2>
+            <span className="text-2xl font-bold text-gray-800">채용정보</span>
+            <span className="text-sm text-gray-500 ml-auto hidden sm:block">
+              업계 최고의 대우를 보장하는 프리미엄 채용공고입니다.
+            </span>
           </div>
-          <div className="w-full h-40 bg-gray-50 border border-gray-200 rounded flex items-center justify-center text-gray-400 text-sm">
-            등록정보가 없습니다.
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {premiumJobs.map((job) => (
+              <PremiumJobCard key={job.id} job={job} />
+            ))}
           </div>
         </section>
 
+        {/* Special Section */}
         <section>
-          <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-xl font-bold text-blue-600">우대</h2>
-            <span className="text-xl font-bold text-gray-800">채용정보</span>
-          </div>
-          <div className="w-full h-32 bg-gray-50 border border-gray-200 rounded flex items-center justify-center text-gray-400 text-sm">
-            등록정보가 없습니다.
-          </div>
-        </section>
-
-        <section>
-          <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-xl font-bold text-blue-600">일반</h2>
-            <span className="text-xl font-bold text-gray-800">채용정보</span>
+          <div className="flex items-center gap-3 mb-6 border-b border-gray-200 pb-4">
+            <h2 className="text-2xl font-bold text-blue-600">SPECIAL</h2>
+            <span className="text-2xl font-bold text-gray-800">우대 채용정보</span>
+            <span className="text-sm text-gray-500 ml-auto hidden sm:block">
+              엄선된 우대 채용공고를 확인하세요.
+            </span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Placeholder Cards */}
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-              <div key={item} className="bg-white border border-gray-200 rounded p-4 hover:border-blue-500 transition-colors cursor-pointer">
-                <div className="h-4 w-20 bg-gray-200 rounded mb-3"></div>
-                <div className="h-5 w-3/4 bg-gray-200 rounded mb-2"></div>
-                <div className="h-4 w-1/2 bg-gray-100 rounded"></div>
-              </div>
+            {specialJobs.map((job) => (
+              <SpecialJobCard key={job.id} job={job} />
             ))}
+          </div>
+        </section>
+
+        {/* General Section */}
+        <section>
+          <div className="flex items-center gap-3 mb-6 border-b border-gray-200 pb-4">
+            <h2 className="text-2xl font-bold text-blue-600">GENERAL</h2>
+            <span className="text-2xl font-bold text-gray-800">일반 채용정보</span>
+            <span className="text-sm text-gray-500 ml-auto hidden sm:block">
+              다양한 직무의 채용공고를 만나보세요.
+            </span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {generalJobs.map((job) => (
+              <GeneralJobCard key={job.id} job={job} />
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <button className="px-8 py-3 bg-gray-100 text-gray-600 font-bold rounded hover:bg-gray-200 transition-colors">
+              채용공고 더보기
+            </button>
           </div>
         </section>
       </div>
