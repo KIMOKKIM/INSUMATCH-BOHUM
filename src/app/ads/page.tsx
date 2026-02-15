@@ -9,7 +9,7 @@ export default function AdsPage() {
         <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
           <h2 className="text-2xl font-bold text-blue-900 mb-4">광고 문의</h2>
           <p className="text-gray-600 mb-6">
-            구인잡의 프리미엄 배너 광고를 통해<br/>
+            Insumatch의 프리미엄 배너 광고를 통해<br/>
             더 빠르고 효과적인 채용을 경험하세요.
           </p>
           

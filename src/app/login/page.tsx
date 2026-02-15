@@ -8,7 +8,7 @@ export default function LoginPage() {
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">로그인</h2>
           <p className="mt-2 text-sm text-gray-600">
-            구인잡의 다양한 채용 정보를 확인하세요.
+            Insumatch의 다양한 채용 정보를 확인하세요.
           </p>
         </div>
         <form className="mt-8 space-y-6" action="#" method="POST">

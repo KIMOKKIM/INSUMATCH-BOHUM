@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "구인잡 - 보험전문 채용사이트",
-  description: "보험전문 채용사이트 구인잡에서 채용의 날개를 달아 드립니다. FC, TMR, 총무 등 다양한 보험 채용 정보 제공.",
+  title: "Insumatch - 보험전문 채용사이트",
+  description: "보험전문 채용사이트 Insumatch에서 채용의 날개를 달아 드립니다. FC, TMR, 총무 등 다양한 보험 채용 정보 제공.",
 };
 
 export default function RootLayout({

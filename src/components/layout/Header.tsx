@@ -10,20 +10,6 @@ export function Header() {
         {/* Logo Section */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex flex-col items-center">
-              <div className="flex items-center gap-1">
-                <span className="text-2xl font-bold text-blue-900 tracking-tight">BOMALL</span>
-                <div className="w-8 h-8 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full flex items-center justify-center text-xs font-bold text-blue-900 border-2 border-blue-900 shadow-sm">
-                  Y$
-                </div>
-              </div>
-              <span className="text-[10px] text-blue-800 font-medium tracking-wide">인바운드/전화 DB</span>
-            </div>
-          </Link>
-          
-          <div className="h-8 w-px bg-gray-200 mx-2 hidden sm:block"></div>
-
-          <Link href="/" className="flex items-center gap-2 group">
             <div className="grid grid-cols-2 gap-0.5">
               <div className="w-1.5 h-1.5 bg-blue-600 rounded-full group-hover:bg-blue-500 transition-colors"></div>
               <div className="w-1.5 h-1.5 bg-blue-400 rounded-full group-hover:bg-blue-300 transition-colors"></div>
@@ -31,8 +17,8 @@ export function Header() {
               <div className="w-1.5 h-1.5 bg-blue-500 rounded-full group-hover:bg-blue-400 transition-colors"></div>
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-bold text-blue-600 tracking-tight">구인잡</span>
-              <span className="text-[10px] text-gray-400 tracking-widest uppercase">guinjob.co.kr</span>
+              <span className="text-2xl font-bold text-blue-600 tracking-tight">Insumatch</span>
+              <span className="text-[10px] text-gray-400 tracking-widest uppercase">insumatch.kr</span>
             </div>
           </Link>
         </div>

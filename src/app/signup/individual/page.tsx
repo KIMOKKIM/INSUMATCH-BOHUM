@@ -93,7 +93,7 @@ export default function IndividualSignupPage() {
                   <Link href="/terms" target="_blank" className="text-xs text-gray-500 underline">내용보기</Link>
                 </div>
                 <div className="h-24 overflow-y-auto text-xs text-gray-500 bg-gray-50 p-3 rounded border border-gray-100">
-                  제1조 (목적) 본 약관은 (주)리치골든파트너(이하 "회사")가 운영하는 구인잡 사이트(이하 "사이트")에서 제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 사이트와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br/><br/>
+                  제1조 (목적) 본 약관은 (주)리치골든파트너(이하 "회사")가 운영하는 Insumatch 사이트(이하 "사이트")에서 제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 사이트와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br/><br/>
                   제2조 (정의) 1. "사이트"란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 또는 용역을 거래할 수 있도록 설정한 가상의 영업장을 말합니다.
                 </div>
               </div>
@@ -113,7 +113,7 @@ export default function IndividualSignupPage() {
                 </div>
                 <div className="h-24 overflow-y-auto text-xs text-gray-500 bg-gray-50 p-3 rounded border border-gray-100">
                   1. 개인정보의 처리 목적<br/>
-                  구인잡은 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며 이용 목적이 변경되는 경우에는 개인정보 보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.<br/>
+                  Insumatch은 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며 이용 목적이 변경되는 경우에는 개인정보 보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.<br/>
                   - 회원 가입 및 관리<br/>
                   - 재화 또는 서비스 제공 (채용 공고 등록, 입사 지원 등)
                 </div>
