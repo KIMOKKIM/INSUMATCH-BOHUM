@@ -3,12 +3,21 @@
 import Link from "next/link";
 import { Building2, ArrowLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import AddressSearchModal from "@/components/common/AddressSearchModal";
 
 export default function CompanySignupPage() {
   const [step, setStep] = useState(1);
   const [agreements, setAgreements] = useState({
     terms: false,
     privacy: false,
+  });
+
+  // Address State
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [addressData, setAddressData] = useState({
+    zonecode: '',
+    address: '',
+    detailAddress: ''
   });
 
   const allAgreed = agreements.terms && agreements.privacy;
@@ -29,6 +38,15 @@ export default function CompanySignupPage() {
   const toggleAll = () => {
     const newState = !allAgreed;
     setAgreements({ terms: newState, privacy: newState });
+  };
+
+  const handleAddressComplete = (data: any) => {
+    setAddressData(prev => ({
+      ...prev,
+      zonecode: data.zonecode,
+      address: data.address
+    }));
+    setIsAddressModalOpen(false);
   };
 
   return (
@@ -186,11 +204,35 @@ export default function CompanySignupPage() {
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">회사 주소 <span className="text-red-500">*</span></label>
                   <div className="flex gap-2 mb-2">
-                    <input type="text" className="w-32 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" placeholder="우편번호" readOnly />
-                    <button type="button" className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded hover:bg-gray-200">주소검색</button>
+                    <input 
+                      type="text" 
+                      className="w-32 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 bg-gray-50" 
+                      placeholder="우편번호" 
+                      readOnly 
+                      value={addressData.zonecode}
+                    />
+                    <button 
+                      type="button" 
+                      onClick={() => setIsAddressModalOpen(true)}
+                      className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded hover:bg-gray-200"
+                    >
+                      주소검색
+                    </button>
                   </div>
-                  <input type="text" className="w-full px-3 py-2 border border-gray-300 rounded mb-2 focus:outline-none focus:border-blue-500" placeholder="기본주소" readOnly />
-                  <input type="text" className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" placeholder="상세주소 입력" />
+                  <input 
+                    type="text" 
+                    className="w-full px-3 py-2 border border-gray-300 rounded mb-2 focus:outline-none focus:border-blue-500 bg-gray-50" 
+                    placeholder="기본주소" 
+                    readOnly 
+                    value={addressData.address}
+                  />
+                  <input 
+                    type="text" 
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" 
+                    placeholder="상세주소 입력" 
+                    value={addressData.detailAddress}
+                    onChange={(e) => setAddressData(prev => ({ ...prev, detailAddress: e.target.value }))}
+                  />
                 </div>
               </div>
             </div>
@@ -231,6 +273,14 @@ export default function CompanySignupPage() {
           </form>
         )}
       </div>
+
+      {/* Address Search Modal */}
+      {isAddressModalOpen && (
+        <AddressSearchModal 
+          onComplete={handleAddressComplete}
+          onClose={() => setIsAddressModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
