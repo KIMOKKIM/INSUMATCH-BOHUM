@@ -13,7 +13,7 @@ export const premiumJobs: JobListing[] = [
     level: "PREMIUM",
     salary: "연봉 5,000만원 이상",
     postedAt: "2024-03-15",
-    contact: "010-1234-5678"
+    contact: "010-3091-0703"
   },
   {
     id: "p2",
@@ -27,7 +27,7 @@ export const premiumJobs: JobListing[] = [
     level: "PREMIUM",
     salary: "능력별 차등 지급",
     postedAt: "2024-03-14",
-    contact: "02-555-5555"
+    contact: "010-3091-0703"
   }
 ];
 

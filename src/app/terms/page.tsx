@@ -7,7 +7,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-xl font-bold text-gray-800 mb-3">제1조 (목적)</h2>
           <p>
-            본 약관은 (주)리치골든파트너(이하 "회사")가 운영하는 Insumatch 사이트(이하 "사이트")에서 제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 사이트와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
+            본 약관은 Insumatch(이하 "회사")가 운영하는 Insumatch 사이트(이하 "사이트")에서 제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 사이트와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
           </p>
         </section>
 

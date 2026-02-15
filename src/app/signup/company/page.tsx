@@ -159,6 +159,16 @@ export default function CompanySignupPage() {
               <h3 className="text-lg font-bold text-gray-800">기업 정보</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">업종 <span className="text-red-500">*</span></label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+                    <option value="">선택해주세요</option>
+                    <option value="ga">법인대리점 (GA)</option>
+                    <option value="insurance">원수사 (생보/손보)</option>
+                    <option value="tm_center">TM 센터</option>
+                    <option value="other">기타</option>
+                  </select>
+                </div>
+                <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">회사명 <span className="text-red-500">*</span></label>
                   <input type="text" className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" placeholder="(주)리치골든파트너" />
                 </div>

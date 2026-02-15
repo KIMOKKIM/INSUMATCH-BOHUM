@@ -19,11 +19,11 @@ export function Footer() {
           <div className="flex items-center gap-2">
             <h3 className="text-lg font-bold text-gray-800">고객센터</h3>
             <span className="text-sm text-gray-600">고객문의</span>
-            <span className="text-xl font-bold text-blue-600">02-1877-3407</span>
+            <span className="text-xl font-bold text-blue-600">010-3091-0703</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <span className="font-medium">이메일</span>
-            <a href="mailto:good78man@naver.com" className="hover:text-blue-600">good78man@naver.com</a>
+            <a href="mailto:teomok1@gmail.com" className="hover:text-blue-600">teomok1@gmail.com</a>
           </div>
         </div>
       </div>
@@ -38,11 +38,11 @@ export function Footer() {
           </div>
           
           <div className="text-xs text-gray-500 space-y-1">
-            <p>(주)리치골든파트너에서 운영되는 사이트 내 판매되는 모든 상품은 (주)리치골든파트너에서 책임지고 있습니다. 민원 담당자 김효은 / 연락처 02-1877-3407</p>
+            <p>Insumatch에서 운영되는 사이트 내 판매되는 모든 상품은 Insumatch에서 책임지고 있습니다. 민원 담당자 김효은 / 연락처 010-3091-0703</p>
             <p>상호명: Insumatch | 사업자등록번호: 206-86-81129 | 통신판매신고번호: 2020-서울금천-2206호</p>
             <p>주소: 서울시 금천구 디지털로 9길 46 이앤씨드림7차 1011호 | 대표자: 송정열</p>
             <p className="mt-2">
-              TEL: 02-1877-3407 | 이메일: good78man@naver.com
+              TEL: 010-3091-0703 | 이메일: teomok1@gmail.com
             </p>
             <p className="mt-2 text-gray-400">
               Copyright©2020 Insumatch All rights reserved.

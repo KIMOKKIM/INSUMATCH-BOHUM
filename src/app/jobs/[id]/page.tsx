@@ -133,7 +133,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
               </div>
               <div>
                 <div className="text-sm text-gray-500">연락처</div>
-                <div className="font-bold text-gray-900">{job.contact || "02-1877-3407 (고객센터)"}</div>
+                <div className="font-bold text-gray-900">{job.contact || "010-3091-0703 (고객센터)"}</div>
               </div>
             </div>
           </div>

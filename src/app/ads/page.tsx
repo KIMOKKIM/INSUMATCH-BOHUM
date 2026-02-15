@@ -20,7 +20,7 @@ export default function AdsPage() {
               </div>
               <div>
                 <div className="text-sm text-gray-500">광고 문의 전화</div>
-                <div className="font-bold text-lg text-gray-900">02-1877-3407</div>
+                <div className="font-bold text-lg text-gray-900">010-3091-0703</div>
               </div>
             </div>
             
@@ -30,7 +30,7 @@ export default function AdsPage() {
               </div>
               <div>
                 <div className="text-sm text-gray-500">이메일 문의</div>
-                <div className="font-bold text-lg text-gray-900">good78man@naver.com</div>
+                <div className="font-bold text-lg text-gray-900">teomok1@gmail.com</div>
               </div>
             </div>
           </div>

@@ -48,7 +48,7 @@ export default function PrivacyPage() {
           <div className="bg-gray-100 p-4 rounded mt-2">
             <p><strong>성명:</strong> 김효은</p>
             <p><strong>직책:</strong> 개인정보 관리 담당자</p>
-            <p><strong>연락처:</strong> 02-1877-3407, good78man@naver.com</p>
+            <p><strong>연락처:</strong> 010-3091-0703, teomok1@gmail.com</p>
           </div>
         </section>
       </div>
