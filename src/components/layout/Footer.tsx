@@ -33,19 +33,17 @@ export function Footer() {
         <div className="container mx-auto px-4">
           <div className="flex gap-4 text-sm text-gray-600 mb-4">
             <Link href="/terms" className="hover:text-gray-900">이용약관</Link>
-            <Link href="/privacy" className="hover:text-gray-900 font-bold">개인정보제공방침</Link>
+            <Link href="/privacy" className="hover:text-gray-900 font-bold">개인정보처리방침</Link>
             <Link href="/ads" className="hover:text-gray-900">배너광고/이용문의</Link>
           </div>
           
           <div className="text-xs text-gray-500 space-y-1">
-            <p>Insumatch에서 운영되는 사이트 내 판매되는 모든 상품은 Insumatch에서 책임지고 있습니다. 민원 담당자 김효은 / 연락처 010-3091-0703</p>
-            <p>상호명: Insumatch | 사업자등록번호: 206-86-81129 | 통신판매신고번호: 2020-서울금천-2206호</p>
-            <p>주소: 서울시 금천구 디지털로 9길 46 이앤씨드림7차 1011호 | 대표자: 송정열</p>
+            <p>Insumatch에서 운영되는 사이트 내 판매되는 모든 상품은 Insumatch에서 책임지고 있습니다.</p>
             <p className="mt-2">
               TEL: 010-3091-0703 | 이메일: teomok1@gmail.com
             </p>
             <p className="mt-2 text-gray-400">
-              Copyright©2020 Insumatch All rights reserved.
+              Copyright©2026 Insumatch All rights reserved.
             </p>
           </div>
         </div>

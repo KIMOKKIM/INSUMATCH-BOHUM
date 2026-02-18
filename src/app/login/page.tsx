@@ -1,7 +1,33 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    id: "",
+    password: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (formData.id === "admin" && formData.password === "admin1234") {
+      // Admin login success
+      router.push("/admin");
+    } else {
+      // For demo purposes, we'll just alert. In a real app, show error message.
+      if (formData.id === "admin") {
+        alert("비밀번호가 일치하지 않습니다.");
+      } else {
+        // Allow normal login simulation or just alert for now since we don't have a backend
+        alert("아이디 또는 비밀번호를 확인해주세요.\n(관리자 계정: admin / admin1234)");
+      }
+    }
+  };
+
   return (
     <div className="min-h-[calc(100vh-200px)] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
@@ -11,18 +37,20 @@ export default function LoginPage() {
             Insumatch의 다양한 채용 정보를 확인하세요.
           </p>
         </div>
-        <form className="mt-8 space-y-6" action="#" method="POST">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email-address" className="sr-only">아이디</label>
+              <label htmlFor="id" className="sr-only">아이디</label>
               <input
-                id="email-address"
-                name="email"
+                id="id"
+                name="id"
                 type="text"
                 autoComplete="username"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="아이디"
+                value={formData.id}
+                onChange={(e) => setFormData({ ...formData, id: e.target.value })}
               />
             </div>
             <div>
@@ -35,6 +63,8 @@ export default function LoginPage() {
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="비밀번호"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />
             </div>
           </div>
