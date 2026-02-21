@@ -1,15 +1,18 @@
 import { Search, ChevronDown } from "lucide-react";
+import Image from "next/image";
 
 export function Hero() {
   return (
     <div className="relative w-full h-[400px] bg-slate-900 overflow-hidden">
       {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80")',
-        }}
-      >
+      <div className="absolute inset-0">
+        <Image
+          src="/hero-bg.png"
+          alt="Insurance Recruitment Background"
+          fill
+          className="object-cover"
+          priority
+        />
         <div className="absolute inset-0 bg-blue-900/40 mix-blend-multiply" />
       </div>
 
