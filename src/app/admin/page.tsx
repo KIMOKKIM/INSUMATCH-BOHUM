@@ -1,6 +1,9 @@
 import { Users, Briefcase, Eye, TrendingUp } from "lucide-react";
+import { getVisitorCount } from "@/lib/analytics";
 
 export default function AdminDashboard() {
+  const visitorCount = getVisitorCount();
+
   return (
     <div className="space-y-8">
       <div>
@@ -46,7 +49,7 @@ export default function AdminDashboard() {
             </span>
           </div>
           <h3 className="text-gray-500 text-sm font-medium">오늘 방문자</h3>
-          <p className="text-2xl font-bold text-gray-900 mt-1">3,456명</p>
+          <p className="text-2xl font-bold text-gray-900 mt-1">{visitorCount.toLocaleString()}명</p>
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">

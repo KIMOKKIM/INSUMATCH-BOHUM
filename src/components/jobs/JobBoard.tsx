@@ -47,9 +47,6 @@ export function JobBoard({ jobs }: JobBoardProps) {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-16">
-                No
-              </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40">
                 지역
               </th>
@@ -62,15 +59,15 @@ export function JobBoard({ jobs }: JobBoardProps) {
               <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
                 등록일
               </th>
+              <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
+                마감일
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredJobs.length > 0 ? (
               filteredJobs.map((job, index) => (
                 <tr key={job.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {filteredJobs.length - index}
-                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="flex items-center gap-1">
                       <MapPin className="w-3 h-3" />
@@ -105,6 +102,9 @@ export function JobBoard({ jobs }: JobBoardProps) {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                     {job.postedAt}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                    {job.deadline || "채용시까지"}
                   </td>
                 </tr>
               ))

@@ -10,6 +10,8 @@ interface JobDetailPageProps {
   };
 }
 
+import { JobViewTracker } from "@/components/common/JobViewTracker";
+
 export default function JobDetailPage({ params }: JobDetailPageProps) {
   // Find the job from all lists
   const allJobs = [...premiumJobs, ...specialJobs, ...generalJobs];
@@ -21,6 +23,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <JobViewTracker id={params.id} />
       {/* Back Button */}
       <Link 
         href="/" 

@@ -13,5 +13,6 @@ export interface JobListing {
   level: JobLevel;
   salary?: string;
   postedAt: string;
+  deadline?: string;
   contact?: string;
 }

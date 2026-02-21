@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Search, Menu, User, Briefcase, Phone, Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -10,15 +11,14 @@ export function Header() {
         {/* Logo Section */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="grid grid-cols-2 gap-0.5">
-              <div className="w-1.5 h-1.5 bg-blue-600 rounded-full group-hover:bg-blue-500 transition-colors"></div>
-              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full group-hover:bg-blue-300 transition-colors"></div>
-              <div className="w-1.5 h-1.5 bg-blue-800 rounded-full group-hover:bg-blue-700 transition-colors"></div>
-              <div className="w-1.5 h-1.5 bg-blue-500 rounded-full group-hover:bg-blue-400 transition-colors"></div>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-2xl font-bold text-blue-600 tracking-tight">Insumatch</span>
-              <span className="text-[10px] text-gray-400 tracking-widest uppercase">insumatch.kr</span>
+            <div className="relative w-48 h-12">
+              <Image 
+                src="/logo.png" 
+                alt="Insumatch" 
+                fill
+                className="object-contain object-left"
+                priority
+              />
             </div>
           </Link>
         </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Search, MoreHorizontal, Plus, Filter } from "lucide-react";
+import { getJobViewCount } from "@/lib/analytics";
 
 export default function AdminJobsPage() {
   const jobs = [
@@ -8,7 +9,10 @@ export default function AdminJobsPage() {
     { id: 3, title: "DB손해보험 총무직 채용", company: "DB손해보험", type: "GENERAL", level: "SPECIAL", postedAt: "2024-02-13", status: "마감" },
     { id: 4, title: "메리츠화재 부산지점 설계사 모집", company: "메리츠화재", type: "FC", level: "GENERAL", postedAt: "2024-02-12", status: "진행중" },
     { id: 5, title: "현대해상 보상팀 경력직", company: "현대해상", type: "GENERAL", level: "GENERAL", postedAt: "2024-02-10", status: "심사중" },
-  ];
+  ].map(job => ({
+    ...job,
+    views: getJobViewCount(job.id.toString())
+  }));
 
   return (
     <div className="space-y-6">
@@ -46,6 +50,7 @@ export default function AdminJobsPage() {
               <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase">직종</th>
               <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase">등급</th>
               <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase">등록일</th>
+              <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase">조회수</th>
               <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase">상태</th>
               <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase text-right">관리</th>
             </tr>
@@ -69,6 +74,7 @@ export default function AdminJobsPage() {
                   </span>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">{job.postedAt}</td>
+                <td className="px-6 py-4 text-sm text-gray-500">{job.views.toLocaleString()}</td>
                 <td className="px-6 py-4 text-sm">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                     job.status === '진행중' ? 'bg-green-100 text-green-700' : 
