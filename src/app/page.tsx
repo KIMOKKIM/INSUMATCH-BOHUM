@@ -2,9 +2,17 @@ import { Hero } from "@/components/home/Hero";
 import { PremiumJobCard } from "@/components/jobs/PremiumJobCard";
 import { SpecialJobCard } from "@/components/jobs/SpecialJobCard";
 import { GeneralJobCard } from "@/components/jobs/GeneralJobCard";
+import { PremiumAdCard } from "@/components/ads/PremiumAdCard";
+import { SpecialAdCard } from "@/components/ads/SpecialAdCard";
+import { GeneralAdCard } from "@/components/ads/GeneralAdCard";
+import { JobBoard } from "@/components/jobs/JobBoard";
 import { premiumJobs, specialJobs, generalJobs } from "@/data/mock-jobs";
+import { premiumAds, specialAds, generalAds } from "@/data/mock-ads";
 
 export default function Home() {
+  // 모든 채용공고 합치기
+  const allJobs = [...premiumJobs, ...specialJobs, ...generalJobs];
+
   return (
     <div className="flex flex-col min-h-screen pb-20">
       <Hero />
@@ -23,6 +31,8 @@ export default function Home() {
             {premiumJobs.map((job) => (
               <PremiumJobCard key={job.id} job={job} />
             ))}
+            {/* Premium Ad Card with Animation */}
+            <PremiumAdCard ads={premiumAds} />
           </div>
         </section>
 
@@ -39,6 +49,8 @@ export default function Home() {
             {specialJobs.map((job) => (
               <SpecialJobCard key={job.id} job={job} />
             ))}
+            {/* Special Ad Card with Animation */}
+            <SpecialAdCard ads={specialAds} />
           </div>
         </section>
 
@@ -55,12 +67,14 @@ export default function Home() {
             {generalJobs.map((job) => (
               <GeneralJobCard key={job.id} job={job} />
             ))}
+            {/* General Ad Card with Animation */}
+            <GeneralAdCard ads={generalAds} />
           </div>
-          <div className="mt-8 text-center">
-            <button className="px-8 py-3 bg-gray-100 text-gray-600 font-bold rounded hover:bg-gray-200 transition-colors">
-              채용공고 더보기
-            </button>
-          </div>
+        </section>
+
+        {/* All Jobs Board Section */}
+        <section>
+          <JobBoard jobs={allJobs} />
         </section>
       </div>
     </div>

@@ -17,7 +17,7 @@ export function Hero() {
       <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
         {/* Main Heading */}
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-12 drop-shadow-md">
-          보험전문 채용사이트 <span className="text-yellow-400">Insumatch</span>에서 채용의 날개를 달아 드립니다.
+          AI 기술로 완성하는 최적의 매칭, <span className="text-yellow-400">Insumatch</span>가 보험 채용의 새로운 미래를 엽니다.
         </h1>
 
         {/* Search Filter Box */}

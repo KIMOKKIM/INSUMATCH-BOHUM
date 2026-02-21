@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export function Header() {
   return (
     <header className="w-full bg-white border-b border-gray-200">
-      {/* Top Bar */}
+      {/* Hero Section */}
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo Section */}
         <div className="flex items-center gap-6">
@@ -39,6 +39,12 @@ export function Header() {
             <NavLink href="/tmr" icon={<Phone className="w-4 h-4" />}>TMR 모집</NavLink>
             <NavLink href="/general" icon={<Building2 className="w-4 h-4" />}>총무,일반직 모집</NavLink>
             <NavLink href="/talents" icon={<Briefcase className="w-4 h-4" />}>인재정보</NavLink>
+            <Link 
+              href="/guide" 
+              className="ml-auto flex items-center gap-2 text-white bg-blue-600 hover:bg-blue-700 px-4 py-1.5 rounded-full text-sm font-bold whitespace-nowrap transition-colors shadow-sm"
+            >
+              이용안내
+            </Link>
           </nav>
         </div>
       </div>

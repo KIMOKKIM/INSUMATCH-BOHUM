@@ -14,16 +14,16 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (formData.id === "admin" && formData.password === "admin1234") {
+    if (formData.id === "teomok1" && formData.password === "teomok$123") {
       // Admin login success
       router.push("/admin");
     } else {
       // For demo purposes, we'll just alert. In a real app, show error message.
-      if (formData.id === "admin") {
+      if (formData.id === "teomok1") {
         alert("비밀번호가 일치하지 않습니다.");
       } else {
         // Allow normal login simulation or just alert for now since we don't have a backend
-        alert("아이디 또는 비밀번호를 확인해주세요.\n(관리자 계정: admin / admin1234)");
+        alert("아이디 또는 비밀번호를 확인해주세요.");
       }
     }
   };
