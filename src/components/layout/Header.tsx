@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Search, Menu, User, Briefcase, Phone, Building2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { User, Briefcase, Phone, Building2 } from "lucide-react";
 
 export function Header() {
   return (

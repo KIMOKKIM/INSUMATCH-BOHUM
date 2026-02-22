@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Building2, ArrowLeft, ChevronRight, Check, RefreshCw, Volume2 } from "lucide-react";
+import { Building2, ArrowLeft, ChevronRight, RefreshCw, Volume2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import AddressSearchModal from "@/components/common/AddressSearchModal";
 import { TERMS_OF_SERVICE, PRIVACY_POLICY } from "@/data/legal";
-import DaumPostcode from "react-daum-postcode";
+
 
 export default function CompanySignupPage() {
   const [step, setStep] = useState(1);
@@ -59,7 +59,7 @@ export default function CompanySignupPage() {
     setAgreements({ terms: newState, privacy: newState });
   };
 
-  const handleAddressComplete = (data: any) => {
+  const handleAddressComplete = (data: { zonecode: string; address: string }) => {
     setAddressData(prev => ({
       ...prev,
       zonecode: data.zonecode,

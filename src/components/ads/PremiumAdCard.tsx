@@ -47,6 +47,7 @@ export function PremiumAdCard({ ads = [] }: PremiumAdCardProps) {
         <div className="relative w-full md:w-1/3 h-48 md:h-auto overflow-hidden bg-slate-700 flex items-center justify-center">
           <div className={`transition-opacity duration-500 w-full h-full ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
             {currentAd.imageUrl ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
               <img 
                 src={currentAd.imageUrl} 
                 alt={currentAd.companyName}

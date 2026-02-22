@@ -1,5 +1,4 @@
 import { premiumJobs, specialJobs, generalJobs } from "@/data/mock-jobs";
-import { JobListing } from "@/types/job";
 import { MapPin, Building2, Calendar, Phone, Briefcase, DollarSign, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -79,6 +78,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
         {/* Image Section (if available) */}
         {job.imageUrl && (
           <div className="w-full h-64 md:h-96 bg-gray-100 relative">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src={job.imageUrl} 
               alt={job.title}

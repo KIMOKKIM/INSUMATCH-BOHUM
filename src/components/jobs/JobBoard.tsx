@@ -66,7 +66,7 @@ export function JobBoard({ jobs }: JobBoardProps) {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredJobs.length > 0 ? (
-              filteredJobs.map((job, index) => (
+              filteredJobs.map((job) => (
                 <tr key={job.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="flex items-center gap-1">
