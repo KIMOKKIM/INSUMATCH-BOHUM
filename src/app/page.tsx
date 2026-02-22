@@ -14,7 +14,7 @@ export default function Home() {
   const allJobs = [...premiumJobs, ...specialJobs, ...generalJobs];
 
   return (
-    <div className="flex flex-col min-h-screen pb-20">
+    <div className="flex flex-col min-h-screen pb-20" suppressHydrationWarning>
       <Hero />
       
       <div className="container mx-auto px-4 py-12 space-y-16">

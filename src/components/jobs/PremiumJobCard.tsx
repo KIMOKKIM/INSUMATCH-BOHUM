@@ -18,6 +18,7 @@ export function PremiumJobCard({ job }: PremiumJobCardProps) {
         {/* Image Section */}
         <div className="relative w-full md:w-1/3 h-48 md:h-auto overflow-hidden bg-gray-100">
           {job.imageUrl ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
             <img 
               src={job.imageUrl} 
               alt={job.companyName}

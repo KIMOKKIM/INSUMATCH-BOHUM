@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail } from "lucide-react";
+
 
 export function Footer() {
   return (
@@ -10,7 +10,7 @@ export function Footer() {
         <div className="flex flex-col gap-4">
           <h3 className="text-lg font-bold text-gray-800">공지사항</h3>
           <div className="text-sm text-gray-500">
-            등록정보가 없습니다.
+            이 사이트는 무료로 공고등록이 가능합니다. 광고를 희망하는 기업은 문의바랍니다.
           </div>
         </div>
 

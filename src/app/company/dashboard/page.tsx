@@ -50,7 +50,7 @@ export default function CompanyDashboard({ searchParams }: Props) {
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
         <h2 className="text-lg font-bold mb-4">공고 목록</h2>
         {myJobs.length === 0 ? (
-          <div className="text-gray-500">등록된 공고가 없습니다. 오른쪽 상단의 "새 공고 등록"을 눌러 공고를 등록하세요.</div>
+          <div className="text-gray-500">{'등록된 공고가 없습니다. 오른쪽 상단의 "새 공고 등록"을 눌러 공고를 등록하세요.'}</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left">

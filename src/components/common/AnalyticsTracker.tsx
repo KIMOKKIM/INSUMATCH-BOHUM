@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { incrementVisitorCount } from "@/lib/analytics";
+
 
 export function VisitorTracker() {
   useEffect(() => {

@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { User, ArrowLeft, ChevronRight, Check, RefreshCw, Volume2 } from "lucide-react";
+import { User, ArrowLeft, ChevronRight, RefreshCw, Volume2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import AddressSearchModal from "@/components/common/AddressSearchModal";
 import { TERMS_OF_SERVICE, PRIVACY_POLICY } from "@/data/legal";
-import DaumPostcode from "react-daum-postcode";
+
 
 export default function IndividualSignupPage() {
   const [step, setStep] = useState(1);
@@ -60,7 +60,7 @@ export default function IndividualSignupPage() {
     setAgreements({ terms: newState, privacy: newState });
   };
 
-  const handleAddressComplete = (data: any) => {
+  const handleAddressComplete = (data: { zonecode: string; address: string }) => {
     setAddressData(prev => ({
       ...prev,
       zonecode: data.zonecode,
@@ -110,10 +110,11 @@ export default function IndividualSignupPage() {
     // Here you would typically send data to your backend
   };
 
-  // Date selectors
-  const years = Array.from({ length: 60 }, (_, i) => 2026 - i);
-  const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+  // Date selectors - available for future use in date picker UI
+  const _years = Array.from({ length: 60 }, (_, i) => 2026 - i);
+  const _months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const _days = Array.from({ length: 31 }, (_, i) => i + 1);
+  void _years; void _months; void _days;
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-2xl">

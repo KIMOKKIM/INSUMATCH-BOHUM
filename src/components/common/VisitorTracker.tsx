@@ -1,12 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
-import { trackVisitor } from "@/app/actions/analytics";
 
 export function VisitorTracker() {
   useEffect(() => {
-    // Track visitor once on mount
-    trackVisitor();
+    // Visitor tracking - silently attempt to track
+    const track = async () => {
+      try {
+        const { trackVisitor } = await import("@/app/actions/analytics");
+        await trackVisitor();
+      } catch {
+        // Silently fail - analytics should not break the app
+      }
+    };
+    track();
   }, []);
 
   return null;

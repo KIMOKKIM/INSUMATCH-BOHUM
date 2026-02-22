@@ -3,13 +3,21 @@
 import DaumPostcode from 'react-daum-postcode';
 import { X } from 'lucide-react';
 
+interface AddressData {
+  address: string;
+  addressType: string;
+  bname: string;
+  buildingName: string;
+  zonecode: string;
+}
+
 interface AddressSearchModalProps {
-  onComplete: (data: any) => void;
+  onComplete: (data: { zonecode: string; address: string }) => void;
   onClose: () => void;
 }
 
 export default function AddressSearchModal({ onComplete, onClose }: AddressSearchModalProps) {
-  const handleComplete = (data: any) => {
+  const handleComplete = (data: AddressData) => {
     let fullAddress = data.address;
     let extraAddress = '';
 
