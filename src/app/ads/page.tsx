@@ -36,7 +36,7 @@ export default function AdsPage() {
           </div>
         </div>
 
-        <div className="bg-gray-50 p-8 rounded-xl border border-gray-200">
+        <div id="ad-product-info" className="bg-gray-50 p-8 rounded-xl border border-gray-200">
           <h2 className="text-xl font-bold text-gray-900 mb-4">광고 상품 안내</h2>
           <ul className="space-y-4 text-gray-600">
             <li className="flex items-start gap-2">

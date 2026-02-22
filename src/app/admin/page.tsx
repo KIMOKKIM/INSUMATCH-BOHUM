@@ -1,4 +1,5 @@
 import { Users, Briefcase, Eye, TrendingUp } from "lucide-react";
+import Link from "next/link";
 import { getVisitorCount } from "@/lib/analytics";
 
 export default function AdminDashboard() {
@@ -6,9 +7,19 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-800">대시보드</h2>
-        <p className="text-gray-500">사이트 현황을 한눈에 확인하세요.</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800">대시보드</h2>
+          <p className="text-gray-500">사이트 현황을 한눈에 확인하세요.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/jobs/new"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700"
+          >
+            공고 등록
+          </Link>
+        </div>
       </div>
 
       {/* Stats Grid */}

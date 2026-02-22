@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { User, ArrowLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { User, ArrowLeft, ChevronRight, Check, RefreshCw, Volume2 } from "lucide-react";
+import { useState, useEffect } from "react";
 import AddressSearchModal from "@/components/common/AddressSearchModal";
+import { TERMS_OF_SERVICE, PRIVACY_POLICY } from "@/data/legal";
+import DaumPostcode from "react-daum-postcode";
 
 export default function IndividualSignupPage() {
   const [step, setStep] = useState(1);
@@ -19,6 +21,24 @@ export default function IndividualSignupPage() {
     address: '',
     detailAddress: ''
   });
+
+  // Captcha State
+  const [captchaValue, setCaptchaValue] = useState("");
+  const [captchaInput, setCaptchaInput] = useState("");
+
+  const generateCaptcha = () => {
+    // Simple mock captcha generation
+    const chars = "0123456789";
+    let result = "";
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setCaptchaValue(result);
+  };
+
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
 
   const allAgreed = agreements.terms && agreements.privacy;
 
@@ -48,6 +68,52 @@ export default function IndividualSignupPage() {
     }));
     setIsAddressModalOpen(false);
   };
+
+  const [id, setId] = useState("");
+  const [phone, setPhone] = useState("");
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+
+  const formatPhoneNumber = (value: string) => {
+    const numbers = value.replace(/[^0-9]/g, "");
+    if (numbers.length <= 3) return numbers;
+    if (numbers.length <= 7) return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(formatPhoneNumber(e.target.value));
+  };
+
+  const handleDuplicateCheck = () => {
+    if (!id) {
+      alert("아이디를 입력해주세요.");
+      return;
+    }
+    
+    // Mock duplicate check logic
+    const takenIds = ["admin", "test", "user", "teomok1"];
+    if (takenIds.includes(id)) {
+      alert("이미 사용 중인 아이디입니다.");
+    } else {
+      alert("사용 가능한 아이디입니다.");
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (captchaInput !== captchaValue) {
+      alert("자동등록방지 문자가 일치하지 않습니다.");
+      return;
+    }
+    const resumeMessage = resumeFile ? "이력서가 첨부되었습니다." : "이력서 미첨부 — 기업으로부터 인터뷰 요청 시 이력서를 별도로 준비해 주세요.";
+    alert(`개인회원 가입이 완료되었습니다. (테스트)\n\n${resumeMessage}`);
+    // Here you would typically send data to your backend
+  };
+
+  // Date selectors
+  const years = Array.from({ length: 60 }, (_, i) => 2026 - i);
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-2xl">
@@ -110,9 +176,8 @@ export default function IndividualSignupPage() {
                   </label>
                   <Link href="/terms" target="_blank" className="text-xs text-gray-500 underline">내용보기</Link>
                 </div>
-                <div className="h-24 overflow-y-auto text-xs text-gray-500 bg-gray-50 p-3 rounded border border-gray-100">
-                  제1조 (목적) 본 약관은 (주)리치골든파트너(이하 "회사")가 운영하는 Insumatch 사이트(이하 "사이트")에서 제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 사이트와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.<br/><br/>
-                  제2조 (정의) 1. "사이트"란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 또는 용역을 거래할 수 있도록 설정한 가상의 영업장을 말합니다.
+                <div className="h-48 overflow-y-scroll text-xs text-gray-500 bg-gray-50 p-3 rounded border border-gray-100 whitespace-pre-wrap leading-relaxed">
+                  {TERMS_OF_SERVICE}
                 </div>
               </div>
 
@@ -129,11 +194,8 @@ export default function IndividualSignupPage() {
                   </label>
                   <Link href="/privacy" target="_blank" className="text-xs text-gray-500 underline">내용보기</Link>
                 </div>
-                <div className="h-24 overflow-y-auto text-xs text-gray-500 bg-gray-50 p-3 rounded border border-gray-100">
-                  1. 개인정보의 처리 목적<br/>
-                  Insumatch은 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며 이용 목적이 변경되는 경우에는 개인정보 보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.<br/>
-                  - 회원 가입 및 관리<br/>
-                  - 재화 또는 서비스 제공 (채용 공고 등록, 입사 지원 등)
+                <div className="h-48 overflow-y-scroll text-xs text-gray-500 bg-gray-50 p-3 rounded border border-gray-100 whitespace-pre-wrap leading-relaxed">
+                  {PRIVACY_POLICY}
                 </div>
               </div>
             </div>
@@ -147,7 +209,7 @@ export default function IndividualSignupPage() {
             </button>
           </div>
         ) : (
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Account Info */}
             <div className="space-y-4">
               <h3 className="text-lg font-bold text-gray-800">계정 정보</h3>
@@ -155,8 +217,20 @@ export default function IndividualSignupPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">아이디 <span className="text-red-500">*</span></label>
                   <div className="flex gap-2">
-                    <input type="text" className="flex-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" placeholder="영문, 숫자 포함 6~12자" />
-                    <button type="button" className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded hover:bg-gray-200">중복확인</button>
+                    <input 
+                      type="text" 
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" 
+                      placeholder="영문, 숫자 포함 6~12자" 
+                      value={id}
+                      onChange={(e) => setId(e.target.value)}
+                    />
+                    <button 
+                      type="button" 
+                      onClick={handleDuplicateCheck}
+                      className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded hover:bg-gray-200"
+                    >
+                      중복확인
+                    </button>
                   </div>
                 </div>
                 <div>
@@ -186,10 +260,14 @@ export default function IndividualSignupPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">휴대폰 번호 <span className="text-red-500">*</span></label>
-                  <div className="flex gap-2">
-                    <input type="tel" className="flex-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" placeholder="'-' 없이 입력" />
-                    <button type="button" className="px-4 py-2 bg-gray-100 text-gray-600 text-sm font-medium rounded hover:bg-gray-200">인증요청</button>
-                  </div>
+                  <input 
+                    type="tel" 
+                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" 
+                    placeholder="'-' 없이 입력" 
+                    value={phone}
+                    onChange={handlePhoneChange}
+                    maxLength={13}
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">성별 <span className="text-red-500">*</span></label>
@@ -272,6 +350,61 @@ export default function IndividualSignupPage() {
                   </select>
                 </div>
               </div>
+            </div>
+
+            {/* 이력서 첨부 (선택) */}
+            <div className="space-y-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">이력서 첨부 (선택)</label>
+              <div className="flex items-center gap-3">
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const file = e.target.files && e.target.files[0];
+                    setResumeFile(file || null);
+                  }}
+                  className="text-sm text-gray-600"
+                />
+                {resumeFile && (
+                  <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded border border-gray-200">
+                    <span className="text-sm text-gray-700 truncate max-w-xs">{resumeFile.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => setResumeFile(null)}
+                      className="text-sm text-red-500 hover:underline"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                선택사항: 이력서를 첨부하지 않으면 기업으로부터 인터뷰 요청 시 이력서를 별도로 준비해야 합니다.
+              </p>
+            </div>
+
+            {/* Captcha */}
+            <div className="space-y-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">자동등록방지 <span className="text-red-500">*</span></label>
+              <div className="flex items-center gap-2">
+                <div className="w-32 h-10 bg-gray-100 border border-gray-300 flex items-center justify-center text-2xl font-bold font-mono tracking-widest text-slate-600 select-none relative overflow-hidden" style={{ backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIi8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNjY2MiLz4KPC9zdmc+")' }}>
+                  <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ background: 'linear-gradient(45deg, transparent 45%, #000 50%, transparent 55%)' }}></div>
+                  {captchaValue}
+                </div>
+                <input 
+                  type="text" 
+                  className="w-32 px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:border-blue-500 text-sm" 
+                  value={captchaInput}
+                  onChange={(e) => setCaptchaInput(e.target.value)}
+                />
+                <button type="button" onClick={() => alert("음성 듣기 기능은 준비중입니다.")} className="p-2 bg-gray-200 rounded hover:bg-gray-300 text-gray-600">
+                  <Volume2 className="w-5 h-5" />
+                </button>
+                <button type="button" onClick={generateCaptcha} className="p-2 bg-gray-200 rounded hover:bg-gray-300 text-gray-600">
+                  <RefreshCw className="w-5 h-5" />
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">자동등록방지 숫자를 순서대로 입력하세요.</p>
             </div>
 
             <div className="pt-6 flex gap-3">

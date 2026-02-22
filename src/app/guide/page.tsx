@@ -95,8 +95,8 @@ export default function GuidePage() {
                     ))}
                   </ul>
 
-                  <Link 
-                    href={plan.id === 'standard' ? '/admin/jobs/new' : '/ads'}
+                  <Link
+                    href={plan.id === 'standard' ? '/ads#ad-product-info' : '/ads'}
                     className={`w-full py-4 rounded-xl font-bold text-center transition-all hover:opacity-90 shadow-md ${plan.buttonColor}`}
                   >
                     {plan.buttonText}
