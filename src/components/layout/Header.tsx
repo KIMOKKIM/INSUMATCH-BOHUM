@@ -58,8 +58,7 @@ function NavLink({ href, children, icon }: { href: string; children: React.React
       href={href} 
       className="flex items-center gap-2 text-gray-700 font-bold hover:text-blue-600 px-3 py-2 text-sm sm:text-base whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-blue-600"
     >
-      {/* Icon is hidden on mobile to save space, shown on larger screens if needed, 
-          but based on screenshot, it's text-heavy. Keeping it simple. */}
+      {icon && <span className="hidden sm:inline-flex">{icon}</span>}
       {children}
     </Link>
   );
