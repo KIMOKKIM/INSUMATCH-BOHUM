@@ -33,7 +33,7 @@ export default function NewJobPage() {
       description: formData.description,
       contact: formData.contact,
       postedAt: new Date().toISOString().slice(0,10),
-      status: "진행중",
+      status: "승인대기",
     };
     await addJobAction(newJob);
     alert("채용공고가 등록되었습니다. (서버 저장 완료) — 메인에 반영됩니다.");

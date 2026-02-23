@@ -11,7 +11,7 @@ import { getJobs } from "@/lib/jobsStore";
 
 export default function Home() {
   // 모든 채용공고(동적)를 불러와 섹션별로 분류
-  const all = getJobs();
+  const all = getJobs().filter((j) => j.status === "진행중");
   const premiumJobs = all.filter((j) => j.level === "PREMIUM");
   const specialJobs = all.filter((j) => j.level === "SPECIAL");
   const generalJobs = all.filter((j) => j.level === "GENERAL" || !j.level);
