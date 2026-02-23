@@ -6,12 +6,16 @@ import { PremiumAdCard } from "@/components/ads/PremiumAdCard";
 import { SpecialAdCard } from "@/components/ads/SpecialAdCard";
 import { GeneralAdCard } from "@/components/ads/GeneralAdCard";
 import { JobBoard } from "@/components/jobs/JobBoard";
-import { premiumJobs, specialJobs, generalJobs } from "@/data/mock-jobs";
 import { premiumAds, specialAds, generalAds } from "@/data/mock-ads";
+import { getJobs } from "@/lib/jobsStore";
 
 export default function Home() {
-  // 모든 채용공고 합치기
-  const allJobs = [...premiumJobs, ...specialJobs, ...generalJobs];
+  // 모든 채용공고(동적)를 불러와 섹션별로 분류
+  const all = getJobs();
+  const premiumJobs = all.filter((j) => j.level === "PREMIUM");
+  const specialJobs = all.filter((j) => j.level === "SPECIAL");
+  const generalJobs = all.filter((j) => j.level === "GENERAL" || !j.level);
+  const allJobs = all;
 
   return (
     <div className="flex flex-col min-h-screen pb-20" suppressHydrationWarning>
