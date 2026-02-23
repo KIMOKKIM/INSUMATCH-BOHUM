@@ -1,5 +1,35 @@
 [
   {
+    "id": "general-1771825781347-55",
+    "title": "테스트 일반 공고",
+    "company": "테스트C",
+    "type": "GENERAL",
+    "level": "GENERAL",
+    "postedAt": "2026-02-23",
+    "status": "진행중",
+    "location": "대구"
+  },
+  {
+    "id": "special-1771825781279-13",
+    "title": "테스트 우대 공고",
+    "company": "테스트B",
+    "type": "TMR",
+    "level": "SPECIAL",
+    "postedAt": "2026-02-23",
+    "status": "진행중",
+    "location": "부산"
+  },
+  {
+    "id": "premium-1771825779078-348",
+    "title": "테스트 프리미엄 공고",
+    "company": "테스트A",
+    "type": "FC",
+    "level": "PREMIUM",
+    "postedAt": "2026-02-23",
+    "status": "진행중",
+    "location": "서울"
+  },
+  {
     "id": "t-prem-1771824837524",
     "title": "테스트 프리미엄 공고 - 자동화",
     "company": "테스트회사A",

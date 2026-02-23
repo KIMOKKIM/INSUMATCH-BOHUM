@@ -1,8 +1,7 @@
 import { Users, Briefcase, Eye, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { getVisitorCount } from "@/lib/analytics";
-import { getJobs } from "@/lib/jobsStore";
-import ApproveButton from "@/components/admin/ApproveButton";
+import RecentJobs from "@/components/admin/RecentJobs";
 
 export default function AdminDashboard() {
   const visitorCount = getVisitorCount();
@@ -101,30 +100,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-800 mb-4">최근 등록 공고</h3>
-          <div className="space-y-4">
-            {getJobs().slice(0, 5).map((job) => (
-              <div key={job.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
-                    <Briefcase className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">{job.title}</p>
-                    <p className="text-xs text-gray-500">{job.company}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded">
-                    {job.status || "승인대기"}
-                  </span>
-                  {job.status === "승인대기" && <ApproveButton id={job.id} />}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <RecentJobs />
       </div>
     </div>
   );
