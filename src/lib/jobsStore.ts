@@ -26,12 +26,22 @@ if (!globalJobs) {
 }
 
 export function getJobs(): Job[] {
-  return [...(global as any).__insumatch_jobs];
+  const arr = [...(global as any).__insumatch_jobs];
+  // sort by postedAt descending (newest first). If postedAt missing, keep current order.
+  return arr.sort((a, b) => {
+    if (!a.postedAt && !b.postedAt) return 0;
+    if (!a.postedAt) return 1;
+    if (!b.postedAt) return -1;
+    return b.postedAt.localeCompare(a.postedAt);
+  });
 }
 
 export function addJob(job: Job) {
+  // If postedAt not provided, set to today (YYYY-MM-DD)
+  const postedAt = job.postedAt || new Date().toISOString().slice(0, 10);
+  const jobWithDate = { ...job, postedAt };
   // ensure newest job is at the top
-  (global as any).__insumatch_jobs = [job, ...(global as any).__insumatch_jobs || []];
+  (global as any).__insumatch_jobs = [jobWithDate, ...(global as any).__insumatch_jobs || []];
 }
 
 export function updateJob(id: string, patch: Partial<Job>) {

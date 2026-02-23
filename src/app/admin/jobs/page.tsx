@@ -26,6 +26,12 @@ export default function AdminJobsPage() {
     setEditing(job);
   };
 
+  const handleClose = (id: string) => {
+    if (!confirm("해당 공고를 마감 처리하시겠습니까?")) return;
+    updateJob(id, { status: "마감" });
+    setJobs(getJobs().map((job: any) => ({ ...job, views: getJobViewCount(job.id.toString()) })));
+  };
+
   const handleSaveEdit = (patch: any) => {
     updateJob(editing.id, patch);
     setJobs(getJobs().map((job: any) => ({ ...job, views: getJobViewCount(job.id.toString()) })));
@@ -112,6 +118,9 @@ export default function AdminJobsPage() {
                 <td className="px-6 py-4 text-right">
                   <div className="flex items-center justify-end gap-3">
                     <button onClick={() => handleEdit(job)} className="text-blue-600 text-sm hover:underline">수정</button>
+                    {job.status !== "마감" && (
+                      <button onClick={() => handleClose(job.id)} className="text-yellow-600 text-sm hover:underline">마감</button>
+                    )}
                     <button onClick={() => handleDelete(job.id)} className="text-red-500 text-sm hover:underline">삭제</button>
                     <Link href={`/jobs/${job.id}`} className="text-sm text-gray-600 hover:underline">보기</Link>
                   </div>
