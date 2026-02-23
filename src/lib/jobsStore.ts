@@ -20,14 +20,56 @@ const initialJobs: Job[] = [
   { id: "5", title: "현대해상 보상팀 경력직", company: "현대해상", type: "GENERAL", level: "GENERAL", postedAt: "2024-02-10", status: "심사중" },
 ];
 
-const globalJobs = (global as any).__insumatch_jobs || null;
-if (!globalJobs) {
-  (global as any).__insumatch_jobs = [...initialJobs];
+import fs from "fs";
+import path from "path";
+
+const dataDir = path.join(process.cwd(), "data");
+const dataFile = path.join(dataDir, "jobs.json");
+
+// Ensure data directory and file exist. Initialize with initialJobs if missing.
+if (!fs.existsSync(dataDir)) {
+  try {
+    fs.mkdirSync(dataDir, { recursive: true });
+  } catch (e) {
+    // ignore
+  }
+}
+
+if (!fs.existsSync(dataFile)) {
+  try {
+    fs.writeFileSync(dataFile, JSON.stringify(initialJobs, null, 2), "utf8");
+  } catch (e) {
+    // ignore
+  }
+}
+
+function readFromFile(): Job[] {
+  try {
+    const raw = fs.readFileSync(dataFile, "utf8");
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed;
+  } catch (e) {
+    // fallback
+  }
+  return [...initialJobs];
+}
+
+function writeToFile(jobs: Job[]) {
+  try {
+    fs.writeFileSync(dataFile, JSON.stringify(jobs, null, 2), "utf8");
+  } catch (e) {
+    // ignore write errors in dev
+  }
+}
+
+// Use global cache to avoid reading file on every call in dev, but keep file as source of truth.
+const globalStore = (global as any).__insumatch_jobs_cache || null;
+if (!globalStore) {
+  (global as any).__insumatch_jobs_cache = readFromFile();
 }
 
 export function getJobs(): Job[] {
-  const arr = [...(global as any).__insumatch_jobs];
-  // sort by postedAt descending (newest first). If postedAt missing, keep current order.
+  const arr = [...(global as any).__insumatch_jobs_cache];
   return arr.sort((a, b) => {
     if (!a.postedAt && !b.postedAt) return 0;
     if (!a.postedAt) return 1;
@@ -37,21 +79,22 @@ export function getJobs(): Job[] {
 }
 
 export function addJob(job: Job) {
-  // If postedAt not provided, set to today (YYYY-MM-DD)
   const postedAt = job.postedAt || new Date().toISOString().slice(0, 10);
   const jobWithDate = { ...job, postedAt };
-  // ensure newest job is at the top
-  (global as any).__insumatch_jobs = [jobWithDate, ...(global as any).__insumatch_jobs || []];
+  (global as any).__insumatch_jobs_cache = [jobWithDate, ...(global as any).__insumatch_jobs_cache || []];
+  writeToFile((global as any).__insumatch_jobs_cache);
 }
 
 export function updateJob(id: string, patch: Partial<Job>) {
-  (global as any).__insumatch_jobs = (global as any).__insumatch_jobs.map((j: Job) =>
+  (global as any).__insumatch_jobs_cache = (global as any).__insumatch_jobs_cache.map((j: Job) =>
     j.id === id ? { ...j, ...patch } : j
   );
+  writeToFile((global as any).__insumatch_jobs_cache);
 }
 
 export function deleteJob(id: string) {
-  (global as any).__insumatch_jobs = (global as any).__insumatch_jobs.filter((j: Job) => j.id !== id);
+  (global as any).__insumatch_jobs_cache = (global as any).__insumatch_jobs_cache.filter((j: Job) => j.id !== id);
+  writeToFile((global as any).__insumatch_jobs_cache);
 }
 
 export type { Job };
