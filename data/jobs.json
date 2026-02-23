@@ -1,0 +1,77 @@
+[
+  {
+    "id": "t-prem-1771824837524",
+    "title": "테스트 프리미엄 공고 - 자동화",
+    "company": "테스트회사A",
+    "type": "FC",
+    "level": "PREMIUM",
+    "postedAt": "2026-02-23",
+    "status": "진행중",
+    "location": "서울"
+  },
+  {
+    "id": "t-spec-1771824837525",
+    "title": "테스트 우대 공고 - 자동화",
+    "company": "테스트회사B",
+    "type": "TMR",
+    "level": "SPECIAL",
+    "postedAt": "2026-02-23",
+    "status": "진행중",
+    "location": "부산"
+  },
+  {
+    "id": "t-gen-1771824837526",
+    "title": "테스트 일반 공고 - 자동화",
+    "company": "테스트회사C",
+    "type": "GENERAL",
+    "level": "GENERAL",
+    "postedAt": "2026-02-23",
+    "status": "진행중",
+    "location": "대구"
+  },
+  {
+    "id": "1",
+    "title": "삼성화재 강남지점 FC 모집",
+    "company": "삼성화재금융서비스",
+    "type": "FC",
+    "level": "PREMIUM",
+    "postedAt": "2024-02-15",
+    "status": "진행중"
+  },
+  {
+    "id": "2",
+    "title": "한화라이프랩 TMR 신입/경력 채용",
+    "company": "한화라이프랩",
+    "type": "TMR",
+    "level": "PREMIUM",
+    "postedAt": "2024-02-14",
+    "status": "진행중"
+  },
+  {
+    "id": "3",
+    "title": "DB손해보험 총무직 채용",
+    "company": "DB손해보험",
+    "type": "GENERAL",
+    "level": "SPECIAL",
+    "postedAt": "2024-02-13",
+    "status": "마감"
+  },
+  {
+    "id": "4",
+    "title": "메리츠화재 부산지점 설계사 모집",
+    "company": "메리츠화재",
+    "type": "FC",
+    "level": "GENERAL",
+    "postedAt": "2024-02-12",
+    "status": "진행중"
+  },
+  {
+    "id": "5",
+    "title": "현대해상 보상팀 경력직",
+    "company": "현대해상",
+    "type": "GENERAL",
+    "level": "GENERAL",
+    "postedAt": "2024-02-10",
+    "status": "심사중"
+  }
+]
