@@ -1,10 +1,10 @@
-"use client";
+ "use client";
 
 import Link from "next/link";
 import { ArrowLeft, Save } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { addJob } from "@/lib/jobsStore";
+import { addJobAction } from "@/app/actions/jobs";
 
 export default function NewJobPage() {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function NewJobPage() {
     contact: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const id = Date.now().toString();
     const newJob = {
@@ -35,8 +35,9 @@ export default function NewJobPage() {
       postedAt: new Date().toISOString().slice(0,10),
       status: "진행중",
     };
-    addJob(newJob);
-    alert("채용공고가 등록되었습니다. (모의 동작) — 새 공고가 최상단에 노출됩니다.");
+    await addJobAction(newJob);
+    alert("채용공고가 등록되었습니다. (서버 저장 완료) — 메인에 반영됩니다.");
+    // reload to ensure admin list reflects server state
     router.push("/admin/jobs");
   };
 
