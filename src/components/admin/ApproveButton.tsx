@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 
-export default function ApproveButton({ id }: { id: string }) {
+export default function ApproveButton({
+  id,
+  onApproved,
+}: {
+  id: string;
+  onApproved?: (id: string) => void;
+}) {
   const [loading, setLoading] = useState(false);
   const handleApprove = async () => {
     if (!confirm("이 공고를 승인하시겠습니까? 승인은 메인 페이지에 노출됩니다.")) return;
@@ -14,7 +20,7 @@ export default function ApproveButton({ id }: { id: string }) {
         body: JSON.stringify({ status: "진행중" }),
       });
       if (res.ok) {
-        window.location.reload();
+        if (onApproved) onApproved(id);
       } else {
         alert("승인 실패");
         setLoading(false);

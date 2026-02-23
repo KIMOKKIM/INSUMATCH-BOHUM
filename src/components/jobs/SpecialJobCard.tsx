@@ -7,12 +7,18 @@ interface SpecialJobCardProps {
 }
 
 export function SpecialJobCard({ job }: SpecialJobCardProps) {
+  const isNew = job.postedAt ? (Date.now() - new Date(job.postedAt).getTime()) <= 3 * 24 * 60 * 60 * 1000 : false;
   return (
     <Link href={`/jobs/${job.id}`} className="block h-full">
       <div className="group relative bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-300 hover:border-blue-500 flex flex-col h-full">
         <div className="absolute top-2 right-2 text-yellow-400">
           <Star className="w-4 h-4 fill-current" />
         </div>
+        {isNew && (
+          <div className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded z-20">
+            NEW
+          </div>
+        )}
 
         <div className="flex items-center gap-2 mb-3">
           <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">

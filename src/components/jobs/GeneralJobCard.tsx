@@ -7,9 +7,15 @@ interface GeneralJobCardProps {
 }
 
 export function GeneralJobCard({ job }: GeneralJobCardProps) {
+  const isNew = job.postedAt ? (Date.now() - new Date(job.postedAt).getTime()) <= 3 * 24 * 60 * 60 * 1000 : false;
   return (
     <Link href={`/jobs/${job.id}`} className="block h-full">
       <div className="group relative bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-300 hover:border-blue-500 h-full flex flex-col justify-between">
+        {isNew && (
+          <div className="absolute top-3 right-3 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded z-20">
+            NEW
+          </div>
+        )}
         <div>
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-2">
