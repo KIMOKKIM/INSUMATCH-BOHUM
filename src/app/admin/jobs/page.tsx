@@ -1,18 +1,42 @@
+ "use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Search, MoreHorizontal, Plus, Filter } from "lucide-react";
 import { getJobViewCount } from "@/lib/analytics";
+import { getJobs, deleteJob, updateJob } from "@/lib/jobsStore";
 
 export default function AdminJobsPage() {
-  const jobs = [
-    { id: 1, title: "삼성화재 강남지점 FC 모집", company: "삼성화재금융서비스", type: "FC", level: "PREMIUM", postedAt: "2024-02-15", status: "진행중" },
-    { id: 2, title: "한화라이프랩 TMR 신입/경력 채용", company: "한화라이프랩", type: "TMR", level: "PREMIUM", postedAt: "2024-02-14", status: "진행중" },
-    { id: 3, title: "DB손해보험 총무직 채용", company: "DB손해보험", type: "GENERAL", level: "SPECIAL", postedAt: "2024-02-13", status: "마감" },
-    { id: 4, title: "메리츠화재 부산지점 설계사 모집", company: "메리츠화재", type: "FC", level: "GENERAL", postedAt: "2024-02-12", status: "진행중" },
-    { id: 5, title: "현대해상 보상팀 경력직", company: "현대해상", type: "GENERAL", level: "GENERAL", postedAt: "2024-02-10", status: "심사중" },
-  ].map(job => ({
-    ...job,
-    views: getJobViewCount(job.id.toString())
-  }));
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [query, setQuery] = useState("");
+  const [editing, setEditing] = useState<any | null>(null);
+
+  useEffect(() => {
+    const all = getJobs().map((job) => ({ ...job, views: getJobViewCount(job.id.toString()) }));
+    setJobs(all);
+  }, []);
+
+  const handleDelete = (id: string) => {
+    if (!confirm("해당 공고를 삭제하시겠습니까? 이 동작은 되돌릴 수 없습니다.")) return;
+    deleteJob(id);
+    setJobs((s) => s.filter((j) => j.id !== id));
+  };
+
+  const handleEdit = (job: any) => {
+    setEditing(job);
+  };
+
+  const handleSaveEdit = (patch: any) => {
+    updateJob(editing.id, patch);
+    setJobs(getJobs().map((job: any) => ({ ...job, views: getJobViewCount(job.id.toString()) })));
+    setEditing(null);
+  };
+
+  const filtered = jobs.filter((j) => {
+    const q = query.trim().toLowerCase();
+    if (!q) return true;
+    return (j.title + " " + j.company).toLowerCase().includes(q);
+  });
 
   return (
     <div className="space-y-6">
@@ -37,6 +61,8 @@ export default function AdminJobsPage() {
           type="text" 
           placeholder="공고명, 회사명으로 검색..." 
           className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
       </div>
 
@@ -56,7 +82,7 @@ export default function AdminJobsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {jobs.map((job) => (
+            {filtered.map((job) => (
               <tr key={job.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 text-sm font-medium text-gray-900">{job.title}</td>
                 <td className="px-6 py-4 text-sm text-gray-500">{job.company}</td>
@@ -73,8 +99,8 @@ export default function AdminJobsPage() {
                     {job.level}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-500">{job.postedAt}</td>
-                <td className="px-6 py-4 text-sm text-gray-500">{job.views.toLocaleString()}</td>
+                <td className="px-6 py-4 text-sm text-gray-500">{job.postedAt || "-"}</td>
+                <td className="px-6 py-4 text-sm text-gray-500">{(job.views || 0).toLocaleString()}</td>
                 <td className="px-6 py-4 text-sm">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                     job.status === '진행중' ? 'bg-green-100 text-green-700' : 
@@ -84,15 +110,58 @@ export default function AdminJobsPage() {
                   </span>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <button className="text-gray-400 hover:text-gray-600">
-                    <MoreHorizontal className="w-5 h-5" />
-                  </button>
+                  <div className="flex items-center justify-end gap-3">
+                    <button onClick={() => handleEdit(job)} className="text-blue-600 text-sm hover:underline">수정</button>
+                    <button onClick={() => handleDelete(job.id)} className="text-red-500 text-sm hover:underline">삭제</button>
+                    <Link href={`/jobs/${job.id}`} className="text-sm text-gray-600 hover:underline">보기</Link>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Edit Modal */}
+      {editing && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center p-6">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setEditing(null)} />
+          <div className="relative max-w-3xl w-full bg-white rounded-lg shadow-xl p-6 z-10">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold">공고 수정</h2>
+              <button className="text-sm text-gray-500" onClick={() => setEditing(null)}>닫기</button>
+            </div>
+            <form onSubmit={(e) => { e.preventDefault(); const form = new FormData(e.currentTarget as HTMLFormElement); const patch: any = { title: form.get("title") as string, company: form.get("company") as string, location: form.get("location") as string, status: form.get("status") as string }; handleSaveEdit(patch); }}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm text-gray-700">공고 제목</label>
+                  <input name="title" defaultValue={editing.title} className="w-full px-3 py-2 border rounded" />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-700">회사명</label>
+                  <input name="company" defaultValue={editing.company} className="w-full px-3 py-2 border rounded" />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-700">근무지</label>
+                  <input name="location" defaultValue={editing.location} className="w-full px-3 py-2 border rounded" />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-700">상태</label>
+                  <select name="status" defaultValue={editing.status} className="w-full px-3 py-2 border rounded">
+                    <option value="진행중">진행중</option>
+                    <option value="심사중">심사중</option>
+                    <option value="마감">마감</option>
+                  </select>
+                </div>
+              </div>
+              <div className="mt-4 flex justify-end gap-2">
+                <button type="button" onClick={() => setEditing(null)} className="px-4 py-2 bg-gray-100 rounded">취소</button>
+                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">저장</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

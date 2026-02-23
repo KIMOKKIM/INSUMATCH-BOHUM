@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, Save } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { addJob } from "@/lib/jobsStore";
 
 export default function NewJobPage() {
   const router = useRouter();
@@ -20,8 +21,22 @@ export default function NewJobPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Job Data:", formData);
-    alert("채용공고가 등록되었습니다.");
+    const id = Date.now().toString();
+    const newJob = {
+      id,
+      title: formData.title,
+      company: formData.companyName,
+      type: formData.jobType,
+      level: formData.level,
+      location: formData.location,
+      salary: formData.salary,
+      description: formData.description,
+      contact: formData.contact,
+      postedAt: new Date().toISOString().slice(0,10),
+      status: "진행중",
+    };
+    addJob(newJob);
+    alert("채용공고가 등록되었습니다. (모의 동작) — 새 공고가 최상단에 노출됩니다.");
     router.push("/admin/jobs");
   };
 
