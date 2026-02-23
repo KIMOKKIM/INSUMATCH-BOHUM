@@ -35,6 +35,13 @@ export default function NewJobPage() {
       postedAt: new Date().toISOString().slice(0,10),
       status: "승인대기",
     };
+    // check admin
+    const me = await (await fetch("/api/admin/me")).json();
+    if (!me.ok) {
+      alert("관리자 권한이 필요합니다. 로그인 후 시도하세요.");
+      router.push("/admin/login");
+      return;
+    }
     // call API to create job
     const res = await fetch("/api/jobs", {
       method: "POST",
