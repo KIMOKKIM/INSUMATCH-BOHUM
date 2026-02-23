@@ -23,6 +23,37 @@ const initialJobs: Job[] = [
 import fs from "fs";
 import path from "path";
 
+// Optional SQLite support: if 'better-sqlite3' is installed, use it for persistence.
+let useSqlite = false;
+let db: any = null;
+const dbFile = path.join(process.cwd(), "data", "jobs.db");
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const BetterSqlite3 = require("better-sqlite3");
+  db = new BetterSqlite3(dbFile);
+  // initialize table
+  db
+    .prepare(
+      `CREATE TABLE IF NOT EXISTS jobs (
+        id TEXT PRIMARY KEY,
+        title TEXT,
+        company TEXT,
+        type TEXT,
+        level TEXT,
+        postedAt TEXT,
+        status TEXT,
+        location TEXT,
+        salary TEXT,
+        description TEXT,
+        contact TEXT
+      )`
+    )
+    .run();
+  useSqlite = true;
+} catch (e) {
+  useSqlite = false;
+}
+
 const dataDir = path.join(process.cwd(), "data");
 const dataFile = path.join(dataDir, "jobs.json");
 
@@ -69,6 +100,10 @@ if (!globalStore) {
 }
 
 export function getJobs(): Job[] {
+  if (useSqlite && db) {
+    const rows = db.prepare("SELECT * FROM jobs ORDER BY postedAt DESC").all();
+    return rows;
+  }
   const arr = [...(global as any).__insumatch_jobs_cache];
   return arr.sort((a, b) => {
     if (!a.postedAt && !b.postedAt) return 0;
@@ -81,11 +116,27 @@ export function getJobs(): Job[] {
 export function addJob(job: Job) {
   const postedAt = job.postedAt || new Date().toISOString().slice(0, 10);
   const jobWithDate = { ...job, postedAt };
+  if (useSqlite && db) {
+    const stmt = db.prepare(
+      `INSERT OR REPLACE INTO jobs (id,title,company,type,level,postedAt,status,location,salary,description,contact)
+       VALUES (@id,@title,@company,@type,@level,@postedAt,@status,@location,@salary,@description,@contact)`
+    );
+    stmt.run(jobWithDate);
+    return;
+  }
   (global as any).__insumatch_jobs_cache = [jobWithDate, ...(global as any).__insumatch_jobs_cache || []];
   writeToFile((global as any).__insumatch_jobs_cache);
 }
 
 export function updateJob(id: string, patch: Partial<Job>) {
+  if (useSqlite && db) {
+    const fields = Object.keys(patch);
+    if (fields.length === 0) return;
+    const set = fields.map((f) => `${f} = @${f}`).join(", ");
+    const stmt = db.prepare(`UPDATE jobs SET ${set} WHERE id = @id`);
+    stmt.run({ id, ...patch });
+    return;
+  }
   (global as any).__insumatch_jobs_cache = (global as any).__insumatch_jobs_cache.map((j: Job) =>
     j.id === id ? { ...j, ...patch } : j
   );
@@ -93,6 +144,10 @@ export function updateJob(id: string, patch: Partial<Job>) {
 }
 
 export function deleteJob(id: string) {
+  if (useSqlite && db) {
+    db.prepare("DELETE FROM jobs WHERE id = ?").run(id);
+    return;
+  }
   (global as any).__insumatch_jobs_cache = (global as any).__insumatch_jobs_cache.filter((j: Job) => j.id !== id);
   writeToFile((global as any).__insumatch_jobs_cache);
 }
