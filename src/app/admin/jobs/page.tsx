@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Search, MoreHorizontal, Plus, Filter } from "lucide-react";
 import { getJobViewCount } from "@/lib/analytics";
-import { getJobs, deleteJob, updateJob } from "@/lib/jobsStore";
 
 export default function AdminJobsPage() {
   const [jobs, setJobs] = useState<any[]>([]);
@@ -12,14 +11,22 @@ export default function AdminJobsPage() {
   const [editing, setEditing] = useState<any | null>(null);
 
   useEffect(() => {
-    const all = getJobs().map((job) => ({ ...job, views: getJobViewCount(job.id.toString()) }));
-    setJobs(all);
+    const load = async () => {
+      const res = await fetch("/api/jobs");
+      const all = await res.json();
+      setJobs(all.map((job: any) => ({ ...job, views: getJobViewCount(job.id.toString()) })));
+    };
+    load();
   }, []);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (!confirm("해당 공고를 삭제하시겠습니까? 이 동작은 되돌릴 수 없습니다.")) return;
-    deleteJob(id);
-    setJobs((s) => s.filter((j) => j.id !== id));
+    const res = await fetch(`/api/jobs/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      setJobs((s) => s.filter((j) => j.id !== id));
+    } else {
+      alert("삭제 실패");
+    }
   };
 
   const handleEdit = (job: any) => {
@@ -32,10 +39,19 @@ export default function AdminJobsPage() {
     setJobs(getJobs().map((job: any) => ({ ...job, views: getJobViewCount(job.id.toString()) })));
   };
 
-  const handleSaveEdit = (patch: any) => {
-    updateJob(editing.id, patch);
-    setJobs(getJobs().map((job: any) => ({ ...job, views: getJobViewCount(job.id.toString()) })));
-    setEditing(null);
+  const handleSaveEdit = async (patch: any) => {
+    const res = await fetch(`/api/jobs/${editing.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(patch),
+    });
+    if (res.ok) {
+      const refreshed = await (await fetch("/api/jobs")).json();
+      setJobs(refreshed.map((job: any) => ({ ...job, views: getJobViewCount(job.id.toString()) })));
+      setEditing(null);
+    } else {
+      alert("수정 실패");
+    }
   };
 
   const filtered = jobs.filter((j) => {

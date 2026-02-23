@@ -35,10 +35,18 @@ export default function NewJobPage() {
       postedAt: new Date().toISOString().slice(0,10),
       status: "승인대기",
     };
-    await addJobAction(newJob);
-    alert("채용공고가 등록되었습니다. (서버 저장 완료) — 메인에 반영됩니다.");
-    // reload to ensure admin list reflects server state
-    router.push("/admin/jobs");
+    // call API to create job
+    const res = await fetch("/api/jobs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newJob),
+    });
+    if (res.ok) {
+      alert("채용공고가 등록되었습니다. (서버 저장 완료) — 메인에 반영됩니다.");
+      router.push("/admin/jobs");
+    } else {
+      alert("등록 실패");
+    }
   };
 
   return (
