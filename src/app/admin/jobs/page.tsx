@@ -33,10 +33,19 @@ export default function AdminJobsPage() {
     setEditing(job);
   };
 
-  const handleClose = (id: string) => {
+  const handleClose = async (id: string) => {
     if (!confirm("해당 공고를 마감 처리하시겠습니까?")) return;
-    updateJob(id, { status: "마감" });
-    setJobs(getJobs().map((job: any) => ({ ...job, views: getJobViewCount(job.id.toString()) })));
+    const res = await fetch(`/api/jobs/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "마감" }),
+    });
+    if (res.ok) {
+      const refreshed = await (await fetch("/api/jobs")).json();
+      setJobs(refreshed.map((job: any) => ({ ...job, views: getJobViewCount(job.id.toString()) })));
+    } else {
+      alert("마감 처리 실패");
+    }
   };
 
   const handleSaveEdit = async (patch: any) => {

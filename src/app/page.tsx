@@ -8,6 +8,23 @@ import { GeneralAdCard } from "@/components/ads/GeneralAdCard";
 import { JobBoard } from "@/components/jobs/JobBoard";
 import { premiumAds, specialAds, generalAds } from "@/data/mock-ads";
 import { getJobs } from "@/lib/jobsStore";
+import type { Job } from "@/lib/jobsStore";
+import type { JobListing } from "@/types/job";
+
+function toJobListing(j: Job): JobListing {
+  return {
+    id: j.id,
+    title: j.title,
+    companyName: j.company ?? "",
+    jobType: (j.type ?? "GENERAL") as JobListing["jobType"],
+    level: (j.level ?? "GENERAL") as JobListing["level"],
+    location: j.location ?? "",
+    salary: j.salary,
+    description: j.description,
+    postedAt: j.postedAt ?? "",
+    contact: j.contact,
+  };
+}
 
 export default function Home() {
   // 모든 채용공고(동적)를 불러와 섹션별로 분류
@@ -33,7 +50,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {premiumJobs.map((job) => (
-              <PremiumJobCard key={job.id} job={job} />
+              <PremiumJobCard key={job.id} job={toJobListing(job)} />
             ))}
             {/* Premium Ad Card with Animation */}
             <PremiumAdCard ads={premiumAds} />
@@ -51,7 +68,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {specialJobs.map((job) => (
-              <SpecialJobCard key={job.id} job={job} />
+              <SpecialJobCard key={job.id} job={toJobListing(job)} />
             ))}
             {/* Special Ad Card with Animation */}
             <SpecialAdCard ads={specialAds} />
@@ -69,7 +86,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {generalJobs.map((job) => (
-              <GeneralJobCard key={job.id} job={job} />
+              <GeneralJobCard key={job.id} job={toJobListing(job)} />
             ))}
             {/* General Ad Card with Animation */}
             <GeneralAdCard ads={generalAds} />
@@ -78,7 +95,7 @@ export default function Home() {
 
         {/* All Jobs Board Section */}
         <section>
-          <JobBoard jobs={allJobs} />
+          <JobBoard jobs={allJobs.map(toJobListing)} />
         </section>
       </div>
     </div>
