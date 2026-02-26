@@ -29,7 +29,8 @@ let db: any = null;
 const dbFile = path.join(process.cwd(), "data", "jobs.db");
 try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const BetterSqlite3 = require("better-sqlite3");
+  // Use dynamic require via eval to avoid bundler resolving optional native dependency
+  const BetterSqlite3 = eval("require")("better-sqlite3");
   db = new BetterSqlite3(dbFile);
   // initialize table
   db
