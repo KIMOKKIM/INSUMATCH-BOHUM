@@ -1,4 +1,6 @@
 import { Hero } from "@/components/home/Hero";
+
+export const dynamic = "force-dynamic";
 import { PremiumJobCard } from "@/components/jobs/PremiumJobCard";
 import { SpecialJobCard } from "@/components/jobs/SpecialJobCard";
 import { GeneralJobCard } from "@/components/jobs/GeneralJobCard";

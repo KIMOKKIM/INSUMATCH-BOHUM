@@ -33,6 +33,22 @@ export default function AdminJobsPage() {
     setEditing(job);
   };
 
+  const handleApprove = async (id: string) => {
+    if (!confirm("해당 공고를 승인하시겠습니까? 승인 후 메인 페이지에 노출됩니다.")) return;
+    const res = await fetch(`/api/jobs/${id}`, {
+      method: "PUT",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "진행중" }),
+    });
+    if (res.ok) {
+      const refreshed = await (await fetch("/api/jobs")).json();
+      setJobs(refreshed.map((job: any) => ({ ...job, views: getJobViewCount(job.id.toString()) })));
+    } else {
+      alert("승인 처리 실패");
+    }
+  };
+
   const handleClose = async (id: string) => {
     if (!confirm("해당 공고를 마감 처리하시겠습니까?")) return;
     const res = await fetch(`/api/jobs/${id}`, {
@@ -135,13 +151,17 @@ export default function AdminJobsPage() {
                 <td className="px-6 py-4 text-sm">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                     job.status === '진행중' ? 'bg-green-100 text-green-700' : 
-                    job.status === '마감' ? 'bg-gray-100 text-gray-500' : 'bg-orange-100 text-orange-700'
+                    job.status === '마감' ? 'bg-gray-100 text-gray-500' : 
+                    job.status === '승인대기' ? 'bg-yellow-100 text-yellow-700' : 'bg-orange-100 text-orange-700'
                   }`}>
                     {job.status}
                   </span>
                 </td>
                 <td className="px-6 py-4 text-right">
                   <div className="flex items-center justify-end gap-3">
+                    {job.status === "승인대기" && (
+                      <button onClick={() => handleApprove(job.id)} className="text-green-600 text-sm font-medium hover:underline">승인</button>
+                    )}
                     <button onClick={() => handleEdit(job)} className="text-blue-600 text-sm hover:underline">수정</button>
                     {job.status !== "마감" && (
                       <button onClick={() => handleClose(job.id)} className="text-yellow-600 text-sm hover:underline">마감</button>
@@ -182,6 +202,7 @@ export default function AdminJobsPage() {
                 <div>
                   <label className="block text-sm text-gray-700">상태</label>
                   <select name="status" defaultValue={editing.status} className="w-full px-3 py-2 border rounded">
+                    <option value="승인대기">승인대기</option>
                     <option value="진행중">진행중</option>
                     <option value="심사중">심사중</option>
                     <option value="마감">마감</option>
