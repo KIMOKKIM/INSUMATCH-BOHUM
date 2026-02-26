@@ -23,35 +23,43 @@ const initialJobs: Job[] = [
 import fs from "fs";
 import path from "path";
 
-// Optional SQLite support: if 'better-sqlite3' is installed, use it for persistence.
+// Optional SQLite support: use only when explicitly enabled via env var.
+// This avoids Vercel/build-time bundlers trying to resolve native modules.
 let useSqlite = false;
 let db: any = null;
 const dbFile = path.join(process.cwd(), "data", "jobs.db");
-try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  // Use dynamic require via eval to avoid bundler resolving optional native dependency
-  const BetterSqlite3 = eval("require")("better-sqlite3");
-  db = new BetterSqlite3(dbFile);
-  // initialize table
-  db
-    .prepare(
-      `CREATE TABLE IF NOT EXISTS jobs (
-        id TEXT PRIMARY KEY,
-        title TEXT,
-        company TEXT,
-        type TEXT,
-        level TEXT,
-        postedAt TEXT,
-        status TEXT,
-        location TEXT,
-        salary TEXT,
-        description TEXT,
-        contact TEXT
-      )`
-    )
-    .run();
-  useSqlite = true;
-} catch (e) {
+
+// Enable SQLite only when USE_SQLITE=1 is set in the environment.
+// On Vercel (or other platforms) this should be unset so we fall back to JSON storage.
+if (process.env.USE_SQLITE === "1") {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // Use dynamic require via eval to avoid bundler resolving optional native dependency
+    const BetterSqlite3 = eval("require")("better-sqlite3");
+    db = new BetterSqlite3(dbFile);
+    // initialize table
+    db
+      .prepare(
+        `CREATE TABLE IF NOT EXISTS jobs (
+          id TEXT PRIMARY KEY,
+          title TEXT,
+          company TEXT,
+          type TEXT,
+          level TEXT,
+          postedAt TEXT,
+          status TEXT,
+          location TEXT,
+          salary TEXT,
+          description TEXT,
+          contact TEXT
+        )`
+      )
+      .run();
+    useSqlite = true;
+  } catch (e) {
+    useSqlite = false;
+  }
+} else {
   useSqlite = false;
 }
 
