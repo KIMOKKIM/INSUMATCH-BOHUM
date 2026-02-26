@@ -5,7 +5,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { username, password } = body;
     // Simple hardcoded credentials (replace in prod)
-    if (username === "admin" && password === "admin1234") {
+    if (username === "teomok1" && password === "teomok$123") {
       const res = NextResponse.json({ ok: true });
       // set a simple cookie for admin session
       res.cookies.set("insumatch_admin", "1", { httpOnly: true, path: "/" });

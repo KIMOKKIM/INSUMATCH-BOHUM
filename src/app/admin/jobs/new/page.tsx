@@ -36,7 +36,7 @@ export default function NewJobPage() {
       status: "승인대기",
     };
     // check admin
-    const me = await (await fetch("/api/admin/me")).json();
+    const me = await (await fetch("/api/admin/me", { credentials: "same-origin" })).json();
     if (!me.ok) {
       alert("관리자 권한이 필요합니다. 로그인 후 시도하세요.");
       router.push("/admin/login");
@@ -44,6 +44,7 @@ export default function NewJobPage() {
     }
     // call API to create job
     const res = await fetch("/api/jobs", {
+      credentials: "same-origin",
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newJob),

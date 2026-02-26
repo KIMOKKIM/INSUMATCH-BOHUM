@@ -11,20 +11,29 @@ export default function LoginPage() {
     password: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.id === "teomok1" && formData.password === "teomok$123") {
-      // Admin login success
-      router.push("/admin");
-    } else {
-      // For demo purposes, we'll just alert. In a real app, show error message.
-      if (formData.id === "teomok1") {
-        alert("비밀번호가 일치하지 않습니다.");
+      // Admin login: set cookie via API then redirect to dashboard
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: formData.id, password: formData.password }),
+      });
+      if (res.ok) {
+        router.push("/admin");
       } else {
-        // Allow normal login simulation or just alert for now since we don't have a backend
-        alert("아이디 또는 비밀번호를 확인해주세요.");
+        alert("로그인에 실패했습니다.");
       }
+      return;
+    }
+
+    if (formData.id === "teomok1") {
+      alert("비밀번호가 일치하지 않습니다.");
+    } else {
+      alert("아이디 또는 비밀번호를 확인해주세요.");
     }
   };
 
