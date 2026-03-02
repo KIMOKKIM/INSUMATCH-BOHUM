@@ -113,7 +113,11 @@ export function getJobs(): Job[] {
     const rows = db.prepare("SELECT * FROM jobs ORDER BY postedAt DESC").all();
     return rows;
   }
-  const arr = [...(global as any).__insumatch_jobs_cache];
+  // Always read from file to ensure changes made by API routes (which may run
+  // in a different process) are reflected immediately. Using a process-global
+  // cache broke visibility when admin APIs and page rendering ran in separate
+  // server contexts.
+  const arr = readFromFile();
   return arr.sort((a, b) => {
     if (!a.postedAt && !b.postedAt) return 0;
     if (!a.postedAt) return 1;
