@@ -69,5 +69,17 @@ export function addMember(m: Member) {
   writeToFile((global as any).__insumatch_members_cache);
 }
 
+export function updateMember(id: string, patch: Partial<Member>) {
+  (global as any).__insumatch_members_cache = (global as any).__insumatch_members_cache.map((m: Member) =>
+    m.id === id ? { ...m, ...patch } : m
+  );
+  writeToFile((global as any).__insumatch_members_cache);
+}
+
+export function deleteMember(id: string) {
+  (global as any).__insumatch_members_cache = (global as any).__insumatch_members_cache.filter((m: Member) => m.id !== id);
+  writeToFile((global as any).__insumatch_members_cache);
+}
+
 export type { Member };
 
