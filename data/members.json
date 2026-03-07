@@ -41,4 +41,17 @@
       "logoUrl": "/uploads/1772867680321-_____1.png"
     }
   }
+,
+  {
+    "id": "meritz-20260307",
+    "name": "메리츠화재",
+    "type": "기업",
+    "email": "",
+    "phone": "",
+    "joinDate": "2026-03-07",
+    "status": "승인대기",
+    "raw": {
+      "logoUrl": "/uploads/1772867305173-_____1.png"
+    }
+  }
 ]
