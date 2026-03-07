@@ -16,11 +16,22 @@ export default function ApproveButton({
     try {
       const res = await fetch(`/api/jobs/${id}`, {
         method: "PUT",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: "진행중" }),
       });
       if (res.ok) {
+        // notify local UI
         if (onApproved) onApproved(id);
+        // notify other tabs/pages to refresh their job lists
+        try {
+          const bc = new BroadcastChannel("insumatch");
+          bc.postMessage({ type: "job-updated", id });
+          bc.close();
+        } catch (e) {
+          // BroadcastChannel may not be supported in some environments; ignore
+        }
+        setLoading(false);
       } else {
         alert("승인 실패");
         setLoading(false);

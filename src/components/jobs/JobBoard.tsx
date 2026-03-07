@@ -11,12 +11,60 @@ interface JobBoardProps {
 
 export function JobBoard({ jobs }: JobBoardProps) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [localJobs, setLocalJobs] = useState<JobListing[]>(jobs || []);
 
   // 검색 필터링 로직 (회사명 또는 공고 제목)
-  const filteredJobs = jobs.filter((job) =>
+  const filteredJobs = localJobs.filter((job) =>
     job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.companyName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Listen to broadcast messages (approval/updates) and refresh job list
+  async function refreshJobs() {
+    try {
+      const res = await fetch("/api/jobs");
+      if (!res.ok) return;
+      const all = await res.json();
+      // keep same mapping as server: only show 진행중
+      const visible = all
+        .filter((j: any) => j.status === "진행중")
+        .map((j: any) => ({
+          id: j.id,
+          title: j.title,
+          companyName: j.company ?? "",
+          jobType: (j.type ?? "GENERAL") as JobListing["jobType"],
+          level: (j.level ?? "GENERAL") as JobListing["level"],
+          location: j.location ?? "",
+          salary: j.salary,
+          description: j.description,
+          postedAt: j.postedAt ?? "",
+          contact: j.contact,
+        }));
+      setLocalJobs(visible);
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  // Setup BroadcastChannel for cross-tab updates
+  useState(() => {
+    try {
+      const bc = new BroadcastChannel("insumatch");
+      bc.onmessage = (ev) => {
+        if (ev?.data?.type === "job-updated") {
+          refreshJobs();
+        }
+      };
+      // initial refresh to ensure consistency
+      refreshJobs();
+      return () => {
+        bc.close();
+      };
+    } catch (e) {
+      // BroadcastChannel unsupported; still perform initial refresh
+      refreshJobs();
+    }
+  });
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
