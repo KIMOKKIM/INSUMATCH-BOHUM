@@ -30,6 +30,7 @@ export async function POST(req: Request) {
     }
 
     // Add member entry (기업) so admin dashboard will show the new company
+    // NOTE: create as '정상' directly (no 승인대기)
     if (id && companyName) {
       try {
         addMember({
@@ -39,7 +40,7 @@ export async function POST(req: Request) {
           email: email || "",
           phone: phone || "",
           joinDate: new Date().toISOString().slice(0, 10),
-          status: "승인대기",
+          status: "정상",
           raw: { logoUrl },
         } as any);
       } catch (e) {

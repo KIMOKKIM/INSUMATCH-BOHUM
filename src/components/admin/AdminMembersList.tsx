@@ -1,6 +1,7 @@
  "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Member = {
   id: string;
@@ -32,28 +33,11 @@ export default function AdminMembersList() {
     fetchMembers();
   }, []);
 
-  const handleEdit = async (m: Member) => {
-    const name = prompt("회사명 또는 회원명 수정:", m.name || "");
-    if (name === null) return;
-    const status = prompt("상태 입력 (예: 정상, 승인대기, 정지):", m.status || "");
-    if (status === null) return;
-    try {
-      const res = await fetch(`/api/members/${m.id}`, {
-        method: "PUT",
-        credentials: "same-origin",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, status }),
-      });
-      if (res.ok) {
-        setMembers((s) => s.map((it) => (it.id === m.id ? { ...it, name, status } : it)));
-        alert("수정되었습니다.");
-      } else {
-        alert("수정에 실패했습니다.");
-      }
-    } catch (e) {
-      console.error(e);
-      alert("오류가 발생했습니다.");
-    }
+  const router = useRouter();
+
+  const handleEdit = (m: Member) => {
+    // navigate to edit page where admin can edit full member info
+    router.push(`/admin/members/${encodeURIComponent(m.id)}/edit`);
   };
 
   const handleDelete = async (m: Member) => {
