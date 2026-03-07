@@ -70,6 +70,10 @@ export default function CompanySignupPage() {
 
   const [id, setId] = useState("");
   const [phone, setPhone] = useState("");
+  const [businessNo, setBusinessNo] = useState("");
+  const [logoFileName, setLogoFileName] = useState<string | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [logoBase64, setLogoBase64] = useState<string | null>(null);
 
   const formatPhoneNumber = (value: string) => {
     const numbers = value.replace(/[^0-9]/g, "");
@@ -80,6 +84,37 @@ export default function CompanySignupPage() {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(formatPhoneNumber(e.target.value));
+  };
+
+  const formatBusinessNumber = (value: string) => {
+    const numbers = value.replace(/[^0-9]/g, "");
+    if (numbers.length <= 3) return numbers;
+    if (numbers.length <= 5) return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    return `${numbers.slice(0, 3)}-${numbers.slice(3, 5)}-${numbers.slice(5, 10)}`;
+  };
+
+  const handleBusinessNoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBusinessNo(formatBusinessNumber(e.target.value));
+  };
+
+  const handleLogoSelect = (file: File | null) => {
+    if (!file) {
+      setLogoFileName(null);
+      setLogoPreview(null);
+      setLogoBase64(null);
+      return;
+    }
+    setLogoFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      setLogoPreview(result);
+      // strip data:*/*;base64, prefix
+      const comma = result.indexOf(",");
+      const b64 = comma !== -1 ? result.slice(comma + 1) : result;
+      setLogoBase64(b64);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleDuplicateCheck = () => {
@@ -323,7 +358,7 @@ export default function CompanySignupPage() {
               <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] items-center py-4">
                 <label className="font-bold text-gray-800 pl-4">사업자번호</label>
                 <div className="px-4 md:px-0">
-                  <input type="text" className="w-full md:w-64 px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:border-blue-500 text-sm" placeholder="사업자번호" />
+                  <input type="text" className="w-full md:w-64 px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:border-blue-500 text-sm" placeholder="사업자번호" value={businessNo} onChange={handleBusinessNoChange} maxLength={12} />
                 </div>
               </div>
 
@@ -334,10 +369,16 @@ export default function CompanySignupPage() {
                   <div className="flex items-center gap-2 mb-2">
                     <label className="px-3 py-1.5 border border-gray-300 bg-gray-50 text-xs text-gray-600 rounded-sm cursor-pointer hover:bg-gray-100">
                       파일 선택
-                      <input type="file" className="hidden" accept="image/*" />
+                      <input type="file" className="hidden" accept="image/*" onChange={(e) => handleLogoSelect(e.target.files ? e.target.files[0] : null)} />
                     </label>
-                    <span className="text-xs text-gray-500">선택된 파일 없음</span>
+                    <span className="text-xs text-gray-500">{logoFileName ?? "선택된 파일 없음"}</span>
                   </div>
+                  {logoPreview && (
+                    <div className="mb-2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={logoPreview} alt="logo preview" className="w-36 h-auto border rounded" />
+                    </div>
+                  )}
                   <p className="text-xs text-gray-500 flex items-center gap-1">
                     <span className="w-3 h-3 bg-black text-white rounded-full flex items-center justify-center text-[8px]">!</span>
                     로고이미지 사이즈는(150 * 40)으로 업로드 해주시길 바랍니다.
