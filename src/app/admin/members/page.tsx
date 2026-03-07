@@ -1,13 +1,9 @@
 import { Search, MoreHorizontal, Filter } from "lucide-react";
 
+import { getMembers } from "@/lib/membersStore";
+
 export default function AdminMembersPage() {
-  const members = [
-    { id: 1, name: "김철수", type: "개인", email: "kim@example.com", phone: "010-1234-5678", joinDate: "2024-02-15", status: "정상" },
-    { id: 2, name: "(주)보험나라", type: "기업", email: "contact@bohum.com", phone: "02-123-4567", joinDate: "2024-02-14", status: "정상" },
-    { id: 3, name: "이영희", type: "개인", email: "lee@example.com", phone: "010-9876-5432", joinDate: "2024-02-14", status: "정상" },
-    { id: 4, name: "박민수", type: "개인", email: "park@example.com", phone: "010-5555-4444", joinDate: "2024-02-13", status: "정지" },
-    { id: 5, name: "미래에셋생명", type: "기업", email: "hr@mirae.com", phone: "02-999-8888", joinDate: "2024-02-10", status: "승인대기" },
-  ];
+  const members = getMembers();
 
   return (
     <div className="space-y-6">
