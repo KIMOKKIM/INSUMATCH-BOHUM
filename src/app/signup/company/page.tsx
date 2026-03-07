@@ -74,6 +74,7 @@ export default function CompanySignupPage() {
   const [logoFileName, setLogoFileName] = useState<string | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoBase64, setLogoBase64] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const formatPhoneNumber = (value: string) => {
     const numbers = value.replace(/[^0-9]/g, "");
@@ -132,14 +133,58 @@ export default function CompanySignupPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (captchaInput !== captchaValue) {
       alert("자동등록방지 문자가 일치하지 않습니다.");
       return;
     }
-    alert("기업회원 가입이 완료되었습니다. (테스트)");
-    // Here you would typically send data to your backend
+
+    if (submitting) return;
+    setSubmitting(true);
+
+    try {
+      // Collect form values
+      const form = e.currentTarget as HTMLFormElement;
+      const fd = new FormData(form);
+      const payload: Record<string, any> = {};
+      fd.forEach((v, k) => {
+        // skip file input (we handle logo separately)
+        if (k === "companyLogo") return;
+        payload[k] = v;
+      });
+
+      // include formatted phone and business no from state
+      payload.phone = phone;
+      payload.businessNo = businessNo;
+
+      // include logo base64 if available
+      if (logoBase64 && logoFileName) {
+        payload.logoBase64 = logoBase64;
+        payload.logoName = logoFileName;
+      }
+
+      const res = await fetch("/api/signup/company", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+      if (res.ok && json.ok) {
+        const urlMsg = json.url ? ` 로고가 업로드되었습니다: ${json.url}` : "";
+        alert("기업회원 가입이 완료되었습니다. (테스트)" + urlMsg);
+        // optionally redirect to login
+        window.location.href = "/login";
+      } else {
+        console.error(json);
+        alert("회원가입 중 오류가 발생했습니다.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("회원가입 중 오류가 발생했습니다.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
