@@ -75,6 +75,8 @@ export default function CompanySignupPage() {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoBase64, setLogoBase64] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [companyName, setCompanyName] = useState("");
+  const [email, setEmail] = useState("");
 
   const formatPhoneNumber = (value: string) => {
     const numbers = value.replace(/[^0-9]/g, "");
@@ -146,6 +148,7 @@ export default function CompanySignupPage() {
     try {
       // Collect form values
       const form = e.currentTarget as HTMLFormElement;
+      // Build payload explicitly to avoid relying on form names for controlled fields
       const fd = new FormData(form);
       const payload: Record<string, any> = {};
       fd.forEach((v, k) => {
@@ -154,9 +157,12 @@ export default function CompanySignupPage() {
         payload[k] = v;
       });
 
-      // include formatted phone and business no from state
+      // Ensure required controlled fields are present
       payload.phone = phone;
       payload.businessNo = businessNo;
+      payload.companyName = payload.companyName || companyName;
+      payload.email = payload.email || email;
+      payload.id = payload.id || id;
 
       // include logo base64 if available
       if (logoBase64 && logoFileName) {
@@ -301,9 +307,10 @@ export default function CompanySignupPage() {
               <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] items-center py-4">
                 <label className="font-bold text-gray-800 pl-4">아이디</label>
                 <div className="px-4 md:px-0">
-                  <div className="flex gap-2">
+              <div className="flex gap-2">
                     <input 
                       type="text" 
+                      name="id"
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:border-blue-500 text-sm" 
                       placeholder="아이디" 
                       value={id}
@@ -364,7 +371,7 @@ export default function CompanySignupPage() {
               <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] items-center py-4">
                 <label className="font-bold text-gray-800 pl-4">이메일</label>
                 <div className="px-4 md:px-0">
-                  <input type="email" className="w-full md:w-80 px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:border-blue-500 text-sm" placeholder="E-mail" />
+                  <input name="email" type="email" className="w-full md:w-80 px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:border-blue-500 text-sm" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
               </div>
 
@@ -382,6 +389,7 @@ export default function CompanySignupPage() {
                 <div className="px-4 md:px-0">
                   <input 
                     type="tel" 
+                    name="phone"
                     className="w-full md:w-64 px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:border-blue-500 text-sm" 
                     placeholder="휴대폰번호" 
                     value={phone}
@@ -395,7 +403,7 @@ export default function CompanySignupPage() {
               <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] items-center py-4">
                 <label className="font-bold text-gray-800 pl-4">회사명</label>
                 <div className="px-4 md:px-0">
-                  <input type="text" className="w-full md:w-64 px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:border-blue-500 text-sm" placeholder="회사명" />
+                  <input name="companyName" type="text" className="w-full md:w-64 px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:border-blue-500 text-sm" placeholder="회사명" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
                 </div>
               </div>
 
