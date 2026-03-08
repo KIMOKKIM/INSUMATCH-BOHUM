@@ -1,3 +1,65 @@
+// Simple Node script to login as admin, create a job, approve it, and verify main page
+(async () => {
+  try {
+    const id = 'node-' + Date.now();
+    const job = {
+      id,
+      title: 'NODE_TEST_' + id,
+      company: 'NodeCo',
+      type: 'GENERAL',
+      level: 'GENERAL',
+      location: 'Seoul',
+      salary: '4000',
+      description: 'Node fetch test',
+      contact: '01000000000',
+      postedAt: new Date().toISOString().slice(0,10),
+      status: '승인대기',
+    };
+
+    // Login
+    const loginRes = await fetch('http://localhost:3000/api/admin/login', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ username: 'teomok1', password: 'teomok$123' }),
+    });
+    console.log('login status', loginRes.status);
+    const setCookie = loginRes.headers.get('set-cookie') || '';
+    console.log('set-cookie:', setCookie);
+    const cookie = setCookie ? setCookie.split(';')[0] : '';
+
+    // Create job
+    const createRes = await fetch('http://localhost:3000/api/jobs', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', cookie },
+      body: JSON.stringify(job),
+    });
+    console.log('create status', createRes.status, await createRes.text());
+
+    // Verify created (before approve)
+    const before = await (await fetch('http://localhost:3000/api/jobs')).json();
+    console.log('found before approve', before.find(j => j.id === id));
+
+    // Approve job
+    const approveRes = await fetch(`http://localhost:3000/api/jobs/${id}`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json', cookie },
+      body: JSON.stringify({ status: '진행중' }),
+    });
+    console.log('approve status', approveRes.status, await approveRes.text());
+
+    // Verify after approve
+    const after = await (await fetch('http://localhost:3000/api/jobs')).json();
+    console.log('found after approve', after.find(j => j.id === id));
+
+    // Check main page HTML contains title
+    const html = await (await fetch('http://localhost:3000')).text();
+    console.log('main contains title', html.includes(job.title));
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+})(); 
+
 // Script to simulate admin creating 3 jobs (PREMIUM, SPECIAL, GENERAL)
 // and then approving them via the API on localhost:3001
 const fetch = globalThis.fetch || require('node-fetch');

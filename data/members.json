@@ -1,5 +1,35 @@
 [
   {
+    "id": "e2e-1772951680044",
+    "name": "E2E Test Co 1772951680044",
+    "type": "기업",
+    "email": "e2e@local.test",
+    "phone": "01000000000",
+    "joinDate": "2026-03-08",
+    "status": "정상",
+    "raw": {}
+  },
+  {
+    "id": "testuser1772951243220",
+    "name": "테스트회사",
+    "type": "기업",
+    "email": "test@co.com",
+    "phone": "01011112222",
+    "joinDate": "2026-03-08",
+    "status": "정상",
+    "raw": {}
+  },
+  {
+    "id": "meritz",
+    "name": "메리츠화재",
+    "type": "기업",
+    "email": "hr@meritz.com",
+    "phone": "02-1234-5678",
+    "joinDate": "2026-03-07",
+    "status": "승인대기",
+    "raw": {}
+  },
+  {
     "id": "1",
     "name": "김철수",
     "type": "개인",
@@ -16,42 +46,5 @@
     "phone": "02-123-4567",
     "joinDate": "2024-02-14",
     "status": "정상"
-  },
-  {
-    "id": "1772867305173-_____1",
-    "name": "1772867305173      1",
-    "type": "기업",
-    "email": "",
-    "phone": "",
-    "joinDate": "2026-03-07",
-    "status": "승인대기",
-    "raw": {
-      "logoUrl": "/uploads/1772867305173-_____1.png"
-    }
-  },
-  {
-    "id": "1772867680321-_____1",
-    "name": "1772867680321      1",
-    "type": "기업",
-    "email": "",
-    "phone": "",
-    "joinDate": "2026-03-07",
-    "status": "승인대기",
-    "raw": {
-      "logoUrl": "/uploads/1772867680321-_____1.png"
-    }
-  }
-,
-  {
-    "id": "meritz-20260307",
-    "name": "메리츠화재",
-    "type": "기업",
-    "email": "",
-    "phone": "",
-    "joinDate": "2026-03-07",
-    "status": "승인대기",
-    "raw": {
-      "logoUrl": "/uploads/1772867305173-_____1.png"
-    }
   }
 ]
