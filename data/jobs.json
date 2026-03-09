@@ -1,5 +1,33 @@
 [
   {
+    "id": "deadline-1773039158688",
+    "title": "E2E Deadline Test 1773039158688",
+    "company": "E2ECo",
+    "type": "GENERAL",
+    "level": "GENERAL",
+    "location": "Seoul",
+    "salary": "",
+    "description": "deadline test",
+    "contact": "01000000000",
+    "postedAt": "2026-03-09",
+    "status": "마감",
+    "deadline": "2026-03-09"
+  },
+  {
+    "id": "manual-1773039128704",
+    "title": "E2E Manual Close Test 1773039128704",
+    "company": "E2ECo",
+    "type": "GENERAL",
+    "level": "GENERAL",
+    "location": "Seoul",
+    "salary": "",
+    "description": "test",
+    "contact": "01000000000",
+    "postedAt": "2026-03-09",
+    "status": "마감",
+    "deadline": "2026-03-10"
+  },
+  {
     "id": "1772865619006",
     "title": "3월 보험설계사 자격증(시니어반) 수강생 선착순 모집/교육비 및 중식제공",
     "company": "메리츠화재",
