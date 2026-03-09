@@ -53,6 +53,7 @@ export default function AdminJobsPage() {
     if (!confirm("해당 공고를 마감 처리하시겠습니까?")) return;
     const res = await fetch(`/api/jobs/${id}`, {
       method: "PUT",
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "마감" }),
     });
@@ -67,6 +68,7 @@ export default function AdminJobsPage() {
   const handleSaveEdit = async (patch: any) => {
     const res = await fetch(`/api/jobs/${editing.id}`, {
       method: "PUT",
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(patch),
     });
@@ -185,8 +187,8 @@ export default function AdminJobsPage() {
               <h2 className="text-xl font-bold">공고 수정</h2>
               <button className="text-sm text-gray-500" onClick={() => setEditing(null)}>닫기</button>
             </div>
-            <form onSubmit={(e) => { e.preventDefault(); const form = new FormData(e.currentTarget as HTMLFormElement); const patch: any = { title: form.get("title") as string, company: form.get("company") as string, location: form.get("location") as string, status: form.get("status") as string }; handleSaveEdit(patch); }}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={(e) => { e.preventDefault(); const form = new FormData(e.currentTarget as HTMLFormElement); const patch: any = { title: form.get("title") as string, company: form.get("company") as string, location: form.get("location") as string, deadline: form.get("deadline") as string, status: form.get("status") as string }; handleSaveEdit(patch); }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm text-gray-700">공고 제목</label>
                   <input name="title" defaultValue={editing.title} className="w-full px-3 py-2 border rounded" />
@@ -199,6 +201,10 @@ export default function AdminJobsPage() {
                   <label className="block text-sm text-gray-700">근무지</label>
                   <input name="location" defaultValue={editing.location} className="w-full px-3 py-2 border rounded" />
                 </div>
+              <div>
+                <label className="block text-sm text-gray-700">마감일</label>
+                <input name="deadline" type="date" defaultValue={editing.deadline || ""} className="w-full px-3 py-2 border rounded" />
+              </div>
                 <div>
                   <label className="block text-sm text-gray-700">상태</label>
                   <select name="status" defaultValue={editing.status} className="w-full px-3 py-2 border rounded">
@@ -211,7 +217,7 @@ export default function AdminJobsPage() {
               </div>
               <div className="mt-4 flex justify-end gap-2">
                 <button type="button" onClick={() => setEditing(null)} className="px-4 py-2 bg-gray-100 rounded">취소</button>
-                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">저장</button>
+              <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">저장</button>
               </div>
             </form>
           </div>

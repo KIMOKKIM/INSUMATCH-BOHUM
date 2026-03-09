@@ -24,6 +24,7 @@ function toJobListing(j: Job): JobListing {
     salary: j.salary,
     description: j.description,
     postedAt: j.postedAt ?? "",
+    deadline: (j as any).deadline ?? "",
     contact: j.contact,
   };
 }

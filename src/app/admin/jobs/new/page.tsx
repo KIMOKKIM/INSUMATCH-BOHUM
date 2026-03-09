@@ -17,6 +17,7 @@ export default function NewJobPage() {
     salary: "",
     description: "",
     contact: "",
+    deadline: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,6 +33,7 @@ export default function NewJobPage() {
       salary: formData.salary,
       description: formData.description,
       contact: formData.contact,
+      deadline: formData.deadline || undefined,
       postedAt: new Date().toISOString().slice(0,10),
       status: "승인대기",
     };
@@ -154,6 +156,16 @@ export default function NewJobPage() {
                 placeholder="예: 010-1234-5678"
                 value={formData.contact}
                 onChange={(e) => setFormData({...formData, contact: e.target.value})}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">마감일</label>
+              <input
+                type="date"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                value={formData.deadline}
+                onChange={(e) => setFormData({...formData, deadline: e.target.value})}
               />
             </div>
           </div>

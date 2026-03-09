@@ -10,6 +10,7 @@ type Job = {
   salary?: string;
   description?: string;
   contact?: string;
+  deadline?: string;
 };
 
 const initialJobs: Job[] = [
@@ -87,7 +88,27 @@ function readFromFile(): Job[] {
   try {
     const raw = fs.readFileSync(dataFile, "utf8");
     const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) return parsed;
+    if (Array.isArray(parsed)) {
+      // Auto-close jobs whose deadline has passed
+      let changed = false;
+      const today = new Date().toISOString().slice(0, 10);
+      for (const j of parsed) {
+        if (j.deadline && j.status && j.status !== "마감") {
+          try {
+            if (j.deadline <= today) {
+              j.status = "마감";
+              changed = true;
+            }
+          } catch (e) {}
+        }
+      }
+      if (changed) {
+        try {
+          fs.writeFileSync(dataFile, JSON.stringify(parsed, null, 2), "utf8");
+        } catch (e) {}
+      }
+      return parsed;
+    }
   } catch (e) {
     // fallback
   }
